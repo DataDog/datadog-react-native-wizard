@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "react-native": "0.69.0"
+  },
+  "devDependencies": {
+    "@datadog/datadog-ci": "1.7.2"
   }
 }
