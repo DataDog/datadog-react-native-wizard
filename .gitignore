@@ -105,3 +105,4 @@ dist
 
 # Test artifacts
 src/commands/setup/change-xcode-build-phase/xcode-build-phase-editor/__tests__/fixtures/ios/datadog-sourcemaps.sh
+src/commands/setup/__tests__/fixtures/project/ios/datadog-sourcemaps.sh
