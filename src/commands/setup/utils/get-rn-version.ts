@@ -5,7 +5,7 @@ export const getRNVersion = (projectPath: string): DependencyVersion => {
   return formatDependencyVersion(RNVersion);
 };
 
-type DependencyVersion = {
+export type DependencyVersion = {
   major: number;
   minor: number;
   patch: string; // Patch can be 2-rc1
