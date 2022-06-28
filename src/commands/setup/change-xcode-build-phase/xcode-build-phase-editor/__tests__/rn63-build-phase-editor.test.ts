@@ -23,7 +23,7 @@ describe("RN63BuildPhaseEditor", () => {
       inputPbxprojFile: "rn68.project.pbxproj",
     });
 
-    await rn63BuildPhaseEditor.injectDatadogIntoProject();
+    await rn63BuildPhaseEditor.editBuildPhase();
 
     // @ts-ignore
     expect(`${fixturesPath}/${testFile}`).toMatchFile(

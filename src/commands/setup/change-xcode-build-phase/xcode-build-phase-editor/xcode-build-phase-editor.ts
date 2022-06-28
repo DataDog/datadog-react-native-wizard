@@ -28,7 +28,9 @@ export abstract class XCodeBuildPhaseEditor {
 
   protected abstract getNewShellScript: (line: string) => string;
 
-  public injectDatadogIntoProject = async () => {
+  public abstract editBuildPhase: () => Promise<void>;
+
+  public injectDatadogIntoProjectPbxproj = async () => {
     const lineReader = readline.createInterface({
       input: createReadStream(
         `${process.cwd()}/${this.projectPath}/${this.inputPbxprojFile}`

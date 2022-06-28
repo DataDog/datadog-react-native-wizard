@@ -23,7 +23,7 @@ describe("NoopBuildPhaseEditor", () => {
       inputPbxprojFile: "rn68.project.pbxproj",
     });
 
-    await noopBuildPhaseEditor.injectDatadogIntoProject();
+    await noopBuildPhaseEditor.editBuildPhase();
 
     // @ts-ignore
     expect(`${fixturesPath}/${testFile}`).toMatchFile(
