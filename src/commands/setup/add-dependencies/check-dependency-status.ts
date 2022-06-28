@@ -1,11 +1,11 @@
 export const checkDependencyStatus = (
   dependencyName: string,
   minVersion: string,
-  options: { currentWorkingDirectory: string } = {
-    currentWorkingDirectory: process.cwd(),
-  }
+  options: { projectPath: string }
 ): "NOT_INSTALLED" | "OK" | "OUTDATED" => {
-  const packageJSON = require(`${options.currentWorkingDirectory}/package.json`);
+  const packageJSON = require(`${process.cwd()}/${
+    options.projectPath
+  }/package.json`);
   const installedVersion =
     packageJSON.devDependencies && packageJSON.devDependencies[dependencyName];
   if (!installedVersion) {

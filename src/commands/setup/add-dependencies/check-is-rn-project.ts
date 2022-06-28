@@ -1,10 +1,8 @@
 import { ReactNativeProjectError } from "../errors";
 
-export const checkIsRNProject = (
-  currentWorkingDirectory: string = process.cwd()
-) => {
+export const checkIsRNProject = (projectPath: string) => {
   try {
-    const packageJSON = require(`${currentWorkingDirectory}/package.json`);
+    const packageJSON = require(`${process.cwd()}/${projectPath}/package.json`);
     const RNVersion = packageJSON.dependencies["react-native"];
 
     if (!RNVersion) {

@@ -2,16 +2,20 @@ import { spawn } from "child_process";
 
 export abstract class DependencyInstaller {
   protected dependency: string;
-  protected options: { dev?: boolean };
+  protected options: { dev?: boolean; projectPath: string };
   abstract buildInstallCommand: () => string;
 
-  constructor(dependency: string, options: { dev?: boolean }) {
+  constructor(
+    dependency: string,
+    options: { dev?: boolean; projectPath: string }
+  ) {
     this.dependency = dependency;
     this.options = options;
   }
 
   public installDependency = async () => {
     const bundleJSChildProcess = spawn(this.buildInstallCommand(), {
+      cwd: this.options.projectPath,
       env: process.env,
       stdio: ["inherit", "pipe", "pipe"],
     });

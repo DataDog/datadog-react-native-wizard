@@ -7,10 +7,9 @@ import { yarnDependencyInstaller } from "./yarn";
 // because of circular imports
 export const getDependencyInstaller = (
   dependency: string,
-  options: { dev?: boolean },
-  currentWorkingDirectory: string = process.cwd()
+  options: { dev?: boolean; projectPath: string }
 ): DependencyInstaller => {
-  if (existsSync(`${currentWorkingDirectory}/package-lock.json`)) {
+  if (existsSync(`${options.projectPath}/package-lock.json`)) {
     return new npmDependencyInstaller(dependency, options);
   }
   return new yarnDependencyInstaller(dependency, options);
