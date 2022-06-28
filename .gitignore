@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Test artifacts
+src/commands/setup/change-xcode-build-phase/xcode-build-phase-editor/__tests__/fixtures/ios/datadog-sourcemaps.sh
