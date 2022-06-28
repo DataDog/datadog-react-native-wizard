@@ -1,4 +1,4 @@
-import { existsSync } from "fs";
+import { getPackageManager } from "../../utils/get-package-manager";
 import { DependencyInstaller } from "./dependency-installer";
 import { npmDependencyInstaller } from "./npm";
 import { yarnDependencyInstaller } from "./yarn";
@@ -9,7 +9,7 @@ export const getDependencyInstaller = (
   dependency: string,
   options: { dev?: boolean; projectPath: string }
 ): DependencyInstaller => {
-  if (existsSync(`${options.projectPath}/package-lock.json`)) {
+  if (getPackageManager(options.projectPath) === "npm") {
     return new npmDependencyInstaller(dependency, options);
   }
   return new yarnDependencyInstaller(dependency, options);
