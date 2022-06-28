@@ -6,7 +6,11 @@ const fixturesPath =
 const testFile = "noop.pbxproj.log";
 
 afterEach(() => {
-  unlinkSync(`${fixturesPath}/${testFile}`);
+  try {
+    unlinkSync(`${fixturesPath}/${testFile}`);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 describe("NoopBuildPhaseEditor", () => {
