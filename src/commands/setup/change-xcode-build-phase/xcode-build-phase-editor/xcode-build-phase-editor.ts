@@ -7,23 +7,23 @@ export abstract class XCodeBuildPhaseEditor {
   protected packageManagerBin: string;
   protected nodeBin: string;
   protected projectPath: string;
-  protected outputFile: string;
-  protected pbxprojFile: string;
+  protected inputPbxprojFile: string;
+  protected outputPbxprojFile: string;
   protected tempFile: string;
 
   constructor(options: {
     packageManagerBin: string;
     nodeBin: string;
     projectPath: string;
-    outputFile: string;
-    pbxprojFile: string;
+    inputPbxprojFile: string;
+    outputPbxprojFile: string;
   }) {
     this.packageManagerBin = options.packageManagerBin;
     this.nodeBin = options.nodeBin;
     this.projectPath = options.projectPath;
-    this.outputFile = options.outputFile;
-    this.pbxprojFile = options.pbxprojFile;
-    this.tempFile = `${options.outputFile}.tmp`;
+    this.inputPbxprojFile = options.inputPbxprojFile;
+    this.outputPbxprojFile = options.outputPbxprojFile;
+    this.tempFile = `${options.outputPbxprojFile}.tmp`;
   }
 
   protected abstract getNewShellScript: (line: string) => string;
@@ -31,7 +31,7 @@ export abstract class XCodeBuildPhaseEditor {
   public injectDatadogIntoProject = async () => {
     const lineReader = readline.createInterface({
       input: createReadStream(
-        `${process.cwd()}/${this.projectPath}/${this.pbxprojFile}`
+        `${process.cwd()}/${this.projectPath}/${this.inputPbxprojFile}`
       ),
     });
 
@@ -70,7 +70,7 @@ export abstract class XCodeBuildPhaseEditor {
       return new Promise<void>((resolve, reject) => {
         rename(
           `${process.cwd()}/${this.projectPath}/${this.tempFile}`,
-          `${process.cwd()}/${this.projectPath}/${this.outputFile}`,
+          `${process.cwd()}/${this.projectPath}/${this.outputPbxprojFile}`,
           (error) => {
             if (error) {
               reject(error);

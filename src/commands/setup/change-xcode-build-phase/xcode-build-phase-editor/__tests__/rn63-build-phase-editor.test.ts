@@ -19,8 +19,8 @@ describe("RN63BuildPhaseEditor", () => {
       packageManagerBin: "/opt/homebrew/bin/yarn",
       nodeBin: "/opt/homebrew/bin/node",
       projectPath: fixturesPath,
-      outputFile: testFile,
-      pbxprojFile: "rn68.project.pbxproj",
+      outputPbxprojFile: testFile,
+      inputPbxprojFile: "rn68.project.pbxproj",
     });
 
     await rn63BuildPhaseEditor.injectDatadogIntoProject();

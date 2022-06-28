@@ -19,8 +19,8 @@ describe("NoopBuildPhaseEditor", () => {
       packageManagerBin: "",
       nodeBin: "",
       projectPath: fixturesPath,
-      outputFile: testFile,
-      pbxprojFile: "rn68.project.pbxproj",
+      outputPbxprojFile: testFile,
+      inputPbxprojFile: "rn68.project.pbxproj",
     });
 
     await noopBuildPhaseEditor.injectDatadogIntoProject();
