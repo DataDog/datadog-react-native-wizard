@@ -1,8 +1,10 @@
 import { unlinkSync } from "fs";
+import { getAbsolutePath } from "../../../__test-utils__/get-absolute-path";
 import { NoopBuildPhaseEditor } from "../noop/noop-build-phase-editor";
 
-const fixturesPath =
-  "./src/commands/setup/change-xcode-build-phase/xcode-build-phase-editor/__tests__/fixtures";
+const fixturesPath = getAbsolutePath(
+  "./src/commands/setup/change-xcode-build-phase/xcode-build-phase-editor/__tests__/fixtures"
+);
 const testFile = "noop.pbxproj.log";
 
 afterEach(() => {

@@ -1,8 +1,10 @@
 import { unlinkSync } from "fs";
+import { getAbsolutePath } from "../../../__test-utils__/get-absolute-path";
 import { RN69BuildPhaseEditor } from "../rn69/rn69-build-phase-editor";
 
-const fixturesPath =
-  "./src/commands/setup/change-xcode-build-phase/xcode-build-phase-editor/__tests__/fixtures";
+const fixturesPath = getAbsolutePath(
+  "./src/commands/setup/change-xcode-build-phase/xcode-build-phase-editor/__tests__/fixtures"
+);
 const testFile = "rn69.pbxproj.log";
 
 afterEach(() => {

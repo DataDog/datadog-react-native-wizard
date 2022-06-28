@@ -33,13 +33,13 @@ export abstract class XCodeBuildPhaseEditor {
   protected injectDatadogIntoProjectPbxproj = async () => {
     const lineReader = readline.createInterface({
       input: createReadStream(
-        `${process.cwd()}/${this.absoluteProjectPath}/${this.inputPbxprojFile}`
+        `${this.absoluteProjectPath}/${this.inputPbxprojFile}`
       ),
     });
 
     try {
       const writer = createWriteStream(
-        `${process.cwd()}/${this.absoluteProjectPath}/${this.tempFile}`,
+        `${this.absoluteProjectPath}/${this.tempFile}`,
         { flags: "a" }
       );
 
@@ -71,10 +71,8 @@ export abstract class XCodeBuildPhaseEditor {
 
       return new Promise<void>((resolve, reject) => {
         rename(
-          `${process.cwd()}/${this.absoluteProjectPath}/${this.tempFile}`,
-          `${process.cwd()}/${this.absoluteProjectPath}/${
-            this.outputPbxprojFile
-          }`,
+          `${this.absoluteProjectPath}/${this.tempFile}`,
+          `${this.absoluteProjectPath}/${this.outputPbxprojFile}`,
           (error) => {
             if (error) {
               reject(error);
@@ -84,9 +82,7 @@ export abstract class XCodeBuildPhaseEditor {
         );
       });
     } catch (error) {
-      unlinkSync(
-        `${process.cwd()}/${this.absoluteProjectPath}/${this.tempFile}`
-      );
+      unlinkSync(`${this.absoluteProjectPath}/${this.tempFile}`);
       throw error;
     }
   };

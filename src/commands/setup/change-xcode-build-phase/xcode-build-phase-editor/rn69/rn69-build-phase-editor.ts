@@ -12,9 +12,7 @@ import { XCodeBuildPhaseEditor } from "../xcode-build-phase-editor";
  * We also need to create a script file, so we ask the user about the ideal location.
  */
 export class RN69BuildPhaseEditor extends XCodeBuildPhaseEditor {
-  private datadogScriptLocation: string = `${process.cwd()}/${
-    this.absoluteProjectPath
-  }/ios/datadog-sourcemaps.sh`;
+  private datadogScriptLocation: string = `${this.absoluteProjectPath}/ios/datadog-sourcemaps.sh`;
 
   public editBuildPhase = () => {
     this.addDatadogScript();
