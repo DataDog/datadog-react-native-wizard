@@ -7,7 +7,7 @@ describe("dependencyInstaller", () => {
     it("returns an npm installer when a package-lock.json is present", () => {
       expect(
         getDependencyInstaller("@datadog/datadog-ci", {
-          projectPath:
+          absoluteProjectPath:
             "./src/commands/setup/add-dependencies/dependency-installer/__tests__/fixtures/npmProject",
         })
       ).toBeInstanceOf(npmDependencyInstaller);
@@ -16,7 +16,7 @@ describe("dependencyInstaller", () => {
     it("returns an npm installer when a package-lock.json is present", () => {
       expect(
         getDependencyInstaller("@datadog/datadog-ci", {
-          projectPath:
+          absoluteProjectPath:
             "./src/commands/setup/add-dependencies/dependency-installer/__tests__/fixtures/yarnProject",
         })
       ).toBeInstanceOf(yarnDependencyInstaller);

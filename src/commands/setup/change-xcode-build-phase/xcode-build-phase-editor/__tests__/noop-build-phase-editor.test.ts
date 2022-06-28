@@ -18,7 +18,7 @@ describe("NoopBuildPhaseEditor", () => {
     const noopBuildPhaseEditor = new NoopBuildPhaseEditor({
       packageManagerBin: "",
       nodeBin: "",
-      projectPath: fixturesPath,
+      absoluteProjectPath: fixturesPath,
       outputPbxprojFile: testFile,
       inputPbxprojFile: "rn68.project.pbxproj",
     });

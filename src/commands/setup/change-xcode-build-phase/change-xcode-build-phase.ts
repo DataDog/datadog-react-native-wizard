@@ -8,14 +8,14 @@ import { getProjectPbxprojFile } from "./get-project-pbxproj-file";
 import { RN63BuildPhaseEditor } from "./xcode-build-phase-editor/rn63/rn63-build-phase-editor";
 import { RN69BuildPhaseEditor } from "./xcode-build-phase-editor/rn69/rn69-build-phase-editor";
 
-export const changeXCodeBuildPhase = async (projectPath: string) => {
-  const RNVersion = getRNVersion(projectPath);
-  const packageManager = getPackageManager(projectPath);
-  const pbxprojFile = getProjectPbxprojFile(projectPath);
+export const changeXCodeBuildPhase = async (absoluteProjectPath: string) => {
+  const RNVersion = getRNVersion(absoluteProjectPath);
+  const packageManager = getPackageManager(absoluteProjectPath);
+  const pbxprojFile = getProjectPbxprojFile(absoluteProjectPath);
   const buildPhaseEditor = await getBuildPhaseEditor({
     RNVersion,
     packageManager,
-    projectPath,
+    absoluteProjectPath,
     pbxprojFile,
   });
 
@@ -25,14 +25,14 @@ export const changeXCodeBuildPhase = async (projectPath: string) => {
 const getBuildPhaseEditor = async (params: {
   RNVersion: DependencyVersion;
   packageManager: PackageManager;
-  projectPath: string;
+  absoluteProjectPath: string;
   pbxprojFile: string;
 }) => {
   if (params.RNVersion.minor < 69) {
     return new RN63BuildPhaseEditor({
       packageManagerBin: await getBin(params.packageManager),
       nodeBin: await getBin("node"),
-      projectPath: params.projectPath,
+      absoluteProjectPath: params.absoluteProjectPath,
       inputPbxprojFile: params.pbxprojFile,
       outputPbxprojFile: params.pbxprojFile,
     });
@@ -40,7 +40,7 @@ const getBuildPhaseEditor = async (params: {
   return new RN69BuildPhaseEditor({
     packageManagerBin: await getBin(params.packageManager),
     nodeBin: await getBin("node"),
-    projectPath: params.projectPath,
+    absoluteProjectPath: params.absoluteProjectPath,
     inputPbxprojFile: params.pbxprojFile,
     outputPbxprojFile: params.pbxprojFile,
   });

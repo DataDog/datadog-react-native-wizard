@@ -11,17 +11,17 @@ import { getDependencyInstaller } from "./dependency-installer/get-dependency-in
  *
  * @throws error if not in RN Project
  */
-export const addDependencies = async (projectPath: string) => {
-  checkIsRNProject(projectPath);
+export const addDependencies = async (absoluteProjectPath: string) => {
+  checkIsRNProject(absoluteProjectPath);
   const dependencyStatus = checkDependencyStatus(
     "@datadog/datadog-ci",
     "1.7.3",
-    { projectPath: projectPath }
+    { absoluteProjectPath: absoluteProjectPath }
   );
   if (dependencyStatus !== "OK") {
     const dependencyInstaller = getDependencyInstaller("@datadog/datadog-ci", {
       dev: true,
-      projectPath,
+      absoluteProjectPath,
     });
     await dependencyInstaller.installDependency();
   }

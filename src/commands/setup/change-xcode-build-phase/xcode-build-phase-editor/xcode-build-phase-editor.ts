@@ -6,7 +6,7 @@ import { EOL } from "os";
 export abstract class XCodeBuildPhaseEditor {
   protected packageManagerBin: string;
   protected nodeBin: string;
-  protected projectPath: string;
+  protected absoluteProjectPath: string;
   protected inputPbxprojFile: string;
   protected outputPbxprojFile: string;
   protected tempFile: string;
@@ -14,13 +14,13 @@ export abstract class XCodeBuildPhaseEditor {
   constructor(options: {
     packageManagerBin: string;
     nodeBin: string;
-    projectPath: string;
+    absoluteProjectPath: string;
     inputPbxprojFile: string;
     outputPbxprojFile: string;
   }) {
     this.packageManagerBin = options.packageManagerBin;
     this.nodeBin = options.nodeBin;
-    this.projectPath = options.projectPath;
+    this.absoluteProjectPath = options.absoluteProjectPath;
     this.inputPbxprojFile = options.inputPbxprojFile;
     this.outputPbxprojFile = options.outputPbxprojFile;
     this.tempFile = `${options.outputPbxprojFile}.tmp`;
@@ -33,13 +33,13 @@ export abstract class XCodeBuildPhaseEditor {
   protected injectDatadogIntoProjectPbxproj = async () => {
     const lineReader = readline.createInterface({
       input: createReadStream(
-        `${process.cwd()}/${this.projectPath}/${this.inputPbxprojFile}`
+        `${process.cwd()}/${this.absoluteProjectPath}/${this.inputPbxprojFile}`
       ),
     });
 
     try {
       const writer = createWriteStream(
-        `${process.cwd()}/${this.projectPath}/${this.tempFile}`,
+        `${process.cwd()}/${this.absoluteProjectPath}/${this.tempFile}`,
         { flags: "a" }
       );
 
@@ -71,8 +71,10 @@ export abstract class XCodeBuildPhaseEditor {
 
       return new Promise<void>((resolve, reject) => {
         rename(
-          `${process.cwd()}/${this.projectPath}/${this.tempFile}`,
-          `${process.cwd()}/${this.projectPath}/${this.outputPbxprojFile}`,
+          `${process.cwd()}/${this.absoluteProjectPath}/${this.tempFile}`,
+          `${process.cwd()}/${this.absoluteProjectPath}/${
+            this.outputPbxprojFile
+          }`,
           (error) => {
             if (error) {
               reject(error);
@@ -82,7 +84,9 @@ export abstract class XCodeBuildPhaseEditor {
         );
       });
     } catch (error) {
-      unlinkSync(`${process.cwd()}/${this.projectPath}/${this.tempFile}`);
+      unlinkSync(
+        `${process.cwd()}/${this.absoluteProjectPath}/${this.tempFile}`
+      );
       throw error;
     }
   };

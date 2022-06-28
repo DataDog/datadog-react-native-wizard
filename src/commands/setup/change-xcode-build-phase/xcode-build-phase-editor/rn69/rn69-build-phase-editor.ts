@@ -13,7 +13,7 @@ import { XCodeBuildPhaseEditor } from "../xcode-build-phase-editor";
  */
 export class RN69BuildPhaseEditor extends XCodeBuildPhaseEditor {
   private datadogScriptLocation: string = `${process.cwd()}/${
-    this.projectPath
+    this.absoluteProjectPath
   }/ios/datadog-sourcemaps.sh`;
 
   public editBuildPhase = () => {

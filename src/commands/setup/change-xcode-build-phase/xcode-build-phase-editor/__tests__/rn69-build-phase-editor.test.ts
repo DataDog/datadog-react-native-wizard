@@ -19,7 +19,7 @@ describe("RN69BuildPhaseEditor", () => {
     const rn69BuildPhaseEditor = new RN69BuildPhaseEditor({
       packageManagerBin: "/opt/homebrew/bin/yarn",
       nodeBin: "/opt/homebrew/bin/node",
-      projectPath: fixturesPath,
+      absoluteProjectPath: fixturesPath,
       outputPbxprojFile: testFile,
       inputPbxprojFile: "rn69.project.pbxproj",
     });

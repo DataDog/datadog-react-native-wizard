@@ -7,9 +7,9 @@ import { yarnDependencyInstaller } from "./yarn";
 // because of circular imports
 export const getDependencyInstaller = (
   dependency: string,
-  options: { dev?: boolean; projectPath: string }
+  options: { dev?: boolean; absoluteProjectPath: string }
 ): DependencyInstaller => {
-  if (getPackageManager(options.projectPath) === "npm") {
+  if (getPackageManager(options.absoluteProjectPath) === "npm") {
     return new npmDependencyInstaller(dependency, options);
   }
   return new yarnDependencyInstaller(dependency, options);

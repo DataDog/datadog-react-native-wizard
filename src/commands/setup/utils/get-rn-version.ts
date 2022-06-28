@@ -1,5 +1,7 @@
-export const getRNVersion = (projectPath: string): DependencyVersion => {
-  const packageJSON = require(`${process.cwd()}/${projectPath}/package.json`);
+export const getRNVersion = (
+  absoluteProjectPath: string
+): DependencyVersion => {
+  const packageJSON = require(`${process.cwd()}/${absoluteProjectPath}/package.json`);
   const RNVersion = packageJSON.dependencies["react-native"];
 
   return formatDependencyVersion(RNVersion);

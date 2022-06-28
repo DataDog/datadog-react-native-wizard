@@ -1,8 +1,8 @@
 import { readdirSync } from "fs";
 
-export const getProjectPbxprojFile = (projectPath: string): string => {
-  const xcodeProjName = readdirSync(`${process.cwd()}/${projectPath}/ios`).find(
-    (element) => element.match(".xcodeproj")
-  );
+export const getProjectPbxprojFile = (absoluteProjectPath: string): string => {
+  const xcodeProjName = readdirSync(
+    `${process.cwd()}/${absoluteProjectPath}/ios`
+  ).find((element) => element.match(".xcodeproj"));
   return `ios/${xcodeProjName}/project.pbxproj`;
 };
