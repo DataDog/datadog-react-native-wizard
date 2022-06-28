@@ -1,5 +1,6 @@
 import { Cli } from "clipanion";
 import { SetupCommand } from "../setup";
+import { getAbsolutePath } from "../__test-utils__/get-absolute-path";
 
 const makeCli = () => {
   const cli = new Cli();
@@ -13,7 +14,7 @@ describe("Setup command", () => {
     it("returns a 0 code", async () => {
       const cli = makeCli();
       const code = await cli.run([
-        "./src/commands/setup/__tests__/fixtures/project",
+        getAbsolutePath("./src/commands/setup/__tests__/fixtures/project"),
       ]);
 
       expect(code).toBe(0);
