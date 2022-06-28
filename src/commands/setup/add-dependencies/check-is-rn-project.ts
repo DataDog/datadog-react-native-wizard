@@ -1,13 +1,9 @@
 import { ReactNativeProjectError } from "../errors";
+import { getRNVersion } from "../utils/get-rn-version";
 
 export const checkIsRNProject = (projectPath: string) => {
   try {
-    const packageJSON = require(`${process.cwd()}/${projectPath}/package.json`);
-    const RNVersion = packageJSON.dependencies["react-native"];
-
-    if (!RNVersion) {
-      throw new Error("No RN version in package.json");
-    }
+    getRNVersion(projectPath);
   } catch (error) {
     throw new ReactNativeProjectError((error as Error).message);
   }
