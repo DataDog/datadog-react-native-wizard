@@ -3,7 +3,7 @@ import { spawn } from "child_process";
 export abstract class DependencyInstaller {
   protected dependency: string;
   protected options: { dev?: boolean; projectPath: string };
-  abstract buildInstallCommand: () => string;
+  protected abstract buildInstallCommand: () => string;
 
   constructor(
     dependency: string,
