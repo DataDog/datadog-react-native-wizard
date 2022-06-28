@@ -1,4 +1,4 @@
-import { readFileSync, unlinkSync } from "fs";
+import { unlinkSync } from "fs";
 import { NoopBuildPhaseEditor } from "../noop/noop-build-phase-editor";
 
 const fixturesPath =
@@ -21,9 +21,9 @@ describe("NoopBuildPhaseEditor", () => {
 
     await noopBuildPhaseEditor.injectDatadogIntoProject();
 
-    var expectedFile = readFileSync(`${fixturesPath}/rn68.project.pbxproj`);
-    var writtenFile = readFileSync(`${fixturesPath}/${testFile}`);
-
-    expect(writtenFile).toEqual(expectedFile);
+    // @ts-ignore
+    expect(`${fixturesPath}/${testFile}`).toMatchFile(
+      `${fixturesPath}/rn68.project.pbxproj`
+    );
   });
 });
