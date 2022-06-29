@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import { exec } from "child_process";
 
 export abstract class DependencyInstaller {
   protected dependency: string;
@@ -14,10 +14,9 @@ export abstract class DependencyInstaller {
   }
 
   public installDependency = async () => {
-    const bundleJSChildProcess = spawn(this.buildInstallCommand(), {
+    const bundleJSChildProcess = exec(this.buildInstallCommand(), {
       cwd: this.options.absoluteProjectPath,
       env: process.env,
-      stdio: ["inherit", "pipe", "pipe"],
     });
 
     const [status, signal] = await new Promise((resolve, reject) => {
