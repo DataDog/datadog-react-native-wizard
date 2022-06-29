@@ -2,6 +2,7 @@ import events from "events";
 import { createReadStream, createWriteStream, rename, unlinkSync } from "fs";
 import readline from "readline";
 import { EOL } from "os";
+import { editFile } from "../../utils/edit-file";
 
 export abstract class XCodeBuildPhaseEditor {
   protected packageManagerBin: string;
@@ -31,43 +32,34 @@ export abstract class XCodeBuildPhaseEditor {
   public abstract editBuildPhase: () => Promise<void>;
 
   protected injectDatadogIntoProjectPbxproj = async () => {
-    const lineReader = readline.createInterface({
-      input: createReadStream(
-        `${this.absoluteProjectPath}/${this.inputPbxprojFile}`
-      ),
-    });
-
     try {
-      const writer = createWriteStream(
-        `${this.absoluteProjectPath}/${this.tempFile}`,
-        { flags: "a" }
-      );
-
-      // TODO: refactor this part
       let isInRNBuildPhaseBlock = false;
-
-      lineReader.on("line", (line) => {
-        let isShellScriptLine = false;
-        if (line.match('name = "Bundle React Native code and images"')) {
-          isInRNBuildPhaseBlock = true;
-        }
-        if (isInRNBuildPhaseBlock) {
-          if (line.match("shellScript =")) {
-            isShellScriptLine = true;
+      await editFile(
+        `${this.absoluteProjectPath}/${this.inputPbxprojFile}`,
+        `${this.absoluteProjectPath}/${this.tempFile}`,
+        (line) => {
+          let isShellScriptLine = false;
+          if (line.match('name = "Bundle React Native code and images"')) {
+            isInRNBuildPhaseBlock = true;
           }
-        }
-        writer.write(
-          `${this.getLineToWrite(line, {
+          if (isInRNBuildPhaseBlock) {
+            if (line.match("shellScript =")) {
+              isShellScriptLine = true;
+            }
+          }
+          if (isInRNBuildPhaseBlock && isShellScriptLine) {
+            isInRNBuildPhaseBlock = false;
+            return this.getLineToWrite(line, {
+              isInRNBuildPhaseBlock: true,
+              isShellScriptLine,
+            });
+          }
+          return this.getLineToWrite(line, {
             isInRNBuildPhaseBlock,
             isShellScriptLine,
-          })}${EOL}`
-        );
-        if (isInRNBuildPhaseBlock && isShellScriptLine) {
-          isInRNBuildPhaseBlock = false;
+          });
         }
-      });
-
-      await events.once(lineReader, "close");
+      );
 
       return new Promise<void>((resolve, reject) => {
         rename(
