@@ -12,8 +12,8 @@ import { XCodeBuildPhaseEditor } from "../xcode-build-phase-editor";
 export class RN69BuildPhaseEditor extends XCodeBuildPhaseEditor {
   private datadogScriptLocation: string = `${this.absoluteProjectPath}/ios/datadog-sourcemaps.sh`;
 
-  public editBuildPhase = () => {
-    this.addDatadogScript();
+  public editBuildPhase = async () => {
+    await this.addDatadogScript();
     return this.injectDatadogIntoProjectPbxproj();
   };
 
