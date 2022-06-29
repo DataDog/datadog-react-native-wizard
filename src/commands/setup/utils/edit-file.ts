@@ -5,6 +5,7 @@ import {
   PathLike,
   rename as renameWithCallback,
   unlinkSync,
+  WriteStream,
 } from "fs";
 import readline from "readline";
 import { EOL } from "os";
@@ -29,12 +30,24 @@ export const editFile = async (
     });
 
     await events.once(lineReader, "close");
+    await asyncCloseWriteStream(writer);
 
     await rename(tempFileAbsolutePath, outputFileAbsolutePath);
   } catch (error) {
     unlinkSync(tempFileAbsolutePath);
     throw error;
   }
+};
+
+export const asyncCloseWriteStream = (stream: WriteStream) => {
+  return new Promise<void>((resolve, reject) => {
+    stream.close((error) => {
+      if (error) {
+        reject(error);
+      }
+      resolve();
+    });
+  });
 };
 
 const rename = (oldPath: PathLike, newPath: PathLike): Promise<void> => {
