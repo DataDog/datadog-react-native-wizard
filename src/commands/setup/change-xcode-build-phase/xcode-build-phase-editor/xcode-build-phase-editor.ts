@@ -49,14 +49,13 @@ export abstract class XCodeBuildPhaseEditor {
           }
           if (isInRNBuildPhaseBlock && isShellScriptLine) {
             isInRNBuildPhaseBlock = false;
+
             return this.getLineToWrite(line, {
-              isInRNBuildPhaseBlock: true,
-              isShellScriptLine,
+              isBundleShellScriptLine: true,
             });
           }
           return this.getLineToWrite(line, {
-            isInRNBuildPhaseBlock,
-            isShellScriptLine,
+            isBundleShellScriptLine: false,
           });
         }
       );
@@ -81,9 +80,9 @@ export abstract class XCodeBuildPhaseEditor {
 
   private getLineToWrite = (
     line: string,
-    params: { isInRNBuildPhaseBlock: boolean; isShellScriptLine: boolean }
+    params: { isBundleShellScriptLine: boolean }
   ) => {
-    if (!params.isInRNBuildPhaseBlock || !params.isShellScriptLine) {
+    if (!params.isBundleShellScriptLine) {
       return line;
     }
     return this.getNewShellScript(line);
