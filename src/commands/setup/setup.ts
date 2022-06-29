@@ -1,4 +1,6 @@
 import { Command, Option } from "clipanion";
+import { defaultErrorHandler } from "../../utils/StepsCommand/default-error-handler";
+import { StepsCommand } from "../../utils/StepsCommand/StepsCommand";
 import { addDependencies } from "./add-dependencies/add-dependencies";
 import { applyGradleTask } from "./apply-gradle-task/apply-gradle-task";
 import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-build-phase";
@@ -12,9 +14,39 @@ export class SetupCommand extends Command {
     if (!this.absoluteProjectPath) {
       this.absoluteProjectPath = process.cwd();
     }
-    await addDependencies(this.absoluteProjectPath);
-    await changeXCodeBuildPhase(this.absoluteProjectPath);
-    await applyGradleTask(this.absoluteProjectPath);
-    await createPropertiesFiles(this.absoluteProjectPath);
+
+    const absoluteProjectPath = this.absoluteProjectPath;
+    const setupCommand = new StepsCommand({
+      steps: [
+        {
+          name: "get sourcemaps upload variables",
+          stepFunction: () => createPropertiesFiles(absoluteProjectPath),
+          errorHandler: defaultErrorHandler,
+        },
+        {
+          name: "add required dependencies",
+          stepFunction: () => addDependencies(absoluteProjectPath),
+          errorHandler: defaultErrorHandler,
+        },
+        {
+          name: "automate sourcemaps upload on iOS builds",
+          stepFunction: () => changeXCodeBuildPhase(absoluteProjectPath),
+          errorHandler: defaultErrorHandler,
+        },
+        {
+          name: "automate android upload on iOS builds",
+          stepFunction: () => applyGradleTask(absoluteProjectPath),
+          errorHandler: defaultErrorHandler,
+        },
+      ],
+      startMessage: ["Starting setup of automated datadog sourcemaps"],
+      endMessage: async (results) =>
+        results.reduce<string[]>(
+          (output, result) => [...output, JSON.stringify(result)],
+          []
+        ),
+    });
+
+    await setupCommand.run();
   }
 }
