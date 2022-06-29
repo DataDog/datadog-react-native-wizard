@@ -10,7 +10,7 @@ export const getPropertiesData = async (): Promise<PropertiesData> => {
         "Enter your apiKey. You can find one in your organization settings.",
     },
     {
-      type: "choice",
+      type: "list",
       name: "site",
       message: "Select the site of your organization.",
       default: "US",
