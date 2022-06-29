@@ -38,22 +38,18 @@ export abstract class XCodeBuildPhaseEditor {
         `${this.absoluteProjectPath}/${this.inputPbxprojFile}`,
         `${this.absoluteProjectPath}/${this.tempFile}`,
         (line) => {
-          let isShellScriptLine = false;
           if (line.match('name = "Bundle React Native code and images"')) {
             isInRNBuildPhaseBlock = true;
           }
-          if (isInRNBuildPhaseBlock) {
-            if (line.match("shellScript =")) {
-              isShellScriptLine = true;
-            }
-          }
-          if (isInRNBuildPhaseBlock && isShellScriptLine) {
+
+          if (isInRNBuildPhaseBlock && line.match("shellScript =")) {
             isInRNBuildPhaseBlock = false;
 
             return this.getLineToWrite(line, {
               isBundleShellScriptLine: true,
             });
           }
+
           return this.getLineToWrite(line, {
             isBundleShellScriptLine: false,
           });
