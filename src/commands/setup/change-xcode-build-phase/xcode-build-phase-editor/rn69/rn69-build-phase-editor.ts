@@ -1,6 +1,4 @@
-import events from "events";
-import { createReadStream, createWriteStream } from "fs";
-import readline from "readline";
+import { editFile } from "../../../utils/edit-file";
 import { XCodeBuildPhaseEditor } from "../xcode-build-phase-editor";
 
 /**
@@ -20,22 +18,15 @@ export class RN69BuildPhaseEditor extends XCodeBuildPhaseEditor {
   };
 
   private addDatadogScript = async () => {
-    const lineReader = readline.createInterface({
-      input: createReadStream(`${__dirname}/datadog-sourcemaps.sh.template`),
-    });
-
-    const writer = createWriteStream(this.datadogScriptLocation, {
-      flags: "a",
-    });
-
-    lineReader.on("line", (line) => {
-      const newLine = line
-        .replace("{{nodeBin}}", this.nodeBin)
-        .replace("{{packageManagerBin}}", this.packageManagerBin);
-      writer.write(`${newLine}\n`);
-    });
-
-    await events.once(lineReader, "close");
+    return editFile(
+      `${__dirname}/datadog-sourcemaps.sh.template`,
+      this.datadogScriptLocation,
+      (line: string) => {
+        return line
+          .replace("{{nodeBin}}", this.nodeBin)
+          .replace("{{packageManagerBin}}", this.packageManagerBin);
+      }
+    );
   };
 
   protected getNewShellScript = (line: string) => {
