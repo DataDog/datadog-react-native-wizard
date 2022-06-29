@@ -21,6 +21,10 @@ afterEach(() => {
       `${absoluteProjectPath}/../rn69.project.pbxproj`,
       `${absoluteProjectPath}/ios/MyApp.xcodeproj/project.pbxproj`
     );
+    copyFileSync(
+      `${absoluteProjectPath}/../build.gradle`,
+      `${absoluteProjectPath}/android/app/build.gradle`
+    );
   } catch (error) {
     console.log(error);
   }

@@ -1,5 +1,6 @@
 import { Command, Option } from "clipanion";
 import { addDependencies } from "./add-dependencies/add-dependencies";
+import { applyGradleTask } from "./apply-gradle-task/apply-gradle-task";
 import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-build-phase";
 
 export class SetupCommand extends Command {
@@ -12,5 +13,6 @@ export class SetupCommand extends Command {
     }
     await addDependencies(this.absoluteProjectPath);
     await changeXCodeBuildPhase(this.absoluteProjectPath);
+    await applyGradleTask(this.absoluteProjectPath);
   }
 }
