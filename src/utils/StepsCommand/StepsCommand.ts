@@ -1,64 +1,93 @@
-import { Step, StepResult } from "./interface";
+import { resolve } from "path";
+import { WriteStream } from "tty";
+import {
+  ErrorStepResult,
+  SkippedStepResult,
+  Step,
+  StepResult,
+  SuccessfulStepResult,
+} from "./interface";
+import { Printer } from "./Printer";
 
 export class StepsCommand {
   private steps: Step[];
   private startMessage: string[];
   private endMessage: (results: StepResult[]) => Promise<string[]>;
+  private printer: Printer;
 
   constructor({
     steps,
     startMessage,
     endMessage,
+    stdout,
+    stderr,
   }: {
     steps: Step[];
     startMessage: string[];
     endMessage: (results: StepResult[]) => Promise<string[]>;
+    stdout: WriteStream;
+    stderr: WriteStream;
   }) {
     this.steps = steps;
     this.startMessage = startMessage;
     this.endMessage = endMessage;
+    this.printer = new Printer(stdout, stderr);
   }
 
   public run = async () => {
-    console.log(this.startMessage);
+    this.printer.printStartMessage(this.startMessage);
 
     let results: StepResult[] = [];
     for (let stepIndex = 0; stepIndex < this.steps.length; stepIndex++) {
       const step = this.steps[stepIndex];
-      console.log(`Starting step: ${step.name}`);
+      this.printer.startStep(step.name);
 
       if (shouldSkipStep(results)) {
-        results.push({
+        const stepResult: SkippedStepResult = {
           status: "skipped",
           name: step.name,
-        });
-        console.log(`Skipped step: ${step.name}`);
+        };
+        results.push(stepResult);
+        this.printer.printEndStepMessage(stepResult);
         continue;
       }
 
       try {
         await step.stepFunction();
-        results.push({
+        const stepResult: SuccessfulStepResult = {
           status: "success",
           name: step.name,
-        });
-        console.log(`Successful step: ${step.name}`);
+        };
+        results.push(stepResult);
       } catch (error) {
         const stepError = await step.errorHandler(error);
-        results.push({
+        const stepResult: ErrorStepResult = {
           status: "error",
           error: stepError.error,
           terminating: stepError.terminating,
           name: step.name,
-        });
-        console.log(`Step error: ${step.name}`);
+        };
+
+        results.push(stepResult);
+        this.printer.printEndStepMessage(stepResult);
       }
     }
 
-    console.log(await this.endMessage(results));
+    const terminatingStep = findTerminatingStep(results);
+    this.printer.printEndMessage(results, terminatingStep);
+    if (terminatingStep) {
+      return 1;
+    }
+    return 0;
   };
 }
 
 const shouldSkipStep = (results: StepResult[]) => {
-  return results.some((step) => step.status === "error" && step.terminating);
+  return !!findTerminatingStep(results);
+};
+
+const findTerminatingStep = (results: StepResult[]) => {
+  return results.find(
+    (step) => step.status === "error" && step.terminating
+  ) as ErrorStepResult;
 };

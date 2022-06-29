@@ -3,6 +3,8 @@ import { copyFileSync, unlinkSync } from "fs";
 import { SetupCommand } from "../setup";
 import { getAbsolutePath } from "../__test-utils__/get-absolute-path";
 
+jest.mock("../../../utils/StepsCommand/Printer");
+
 jest.mock("../create-properties-files/get-properties-data", () => ({
   getPropertiesData: () => {
     return new Promise((resolve) =>

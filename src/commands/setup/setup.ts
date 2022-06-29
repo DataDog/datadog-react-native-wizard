@@ -17,6 +17,8 @@ export class SetupCommand extends Command {
 
     const absoluteProjectPath = this.absoluteProjectPath;
     const setupCommand = new StepsCommand({
+      stderr: process.stderr,
+      stdout: process.stdout,
       steps: [
         {
           name: "get sourcemaps upload variables",

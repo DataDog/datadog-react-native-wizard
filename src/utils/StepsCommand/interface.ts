@@ -1,19 +1,24 @@
 export type StepResult =
-  | {
-      status: "success";
-      name: string;
-    }
-  | {
-      status: "error";
-      terminating: boolean;
-      name: string;
-      error: unknown;
-    }
-  | {
-      status: "skipped";
-      name: string;
-    };
+  | SuccessfulStepResult
+  | ErrorStepResult
+  | SkippedStepResult;
 
+export type SuccessfulStepResult = {
+  status: "success";
+  name: string;
+};
+
+export type ErrorStepResult = {
+  status: "error";
+  terminating: boolean;
+  name: string;
+  error: unknown;
+};
+
+export type SkippedStepResult = {
+  status: "skipped";
+  name: string;
+};
 export interface StepError {
   terminating: boolean;
   error: unknown;
