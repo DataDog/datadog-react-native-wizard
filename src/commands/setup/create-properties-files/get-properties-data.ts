@@ -1,16 +1,13 @@
 import inquirer from "inquirer";
+import { PropertiesData } from "./interface";
 
-export const getPropertiesData = async (): Promise<{
-  apiKey?: string;
-  site?: string;
-  intakeURL?: string;
-}> => {
+export const getPropertiesData = async (): Promise<PropertiesData> => {
   return inquirer.prompt([
     {
       type: "input",
       name: "apiKey",
       message:
-        "Enter your apiKey.\nYou can find one in your organization settings.",
+        "Enter your apiKey. You can find one in your organization settings.",
     },
     {
       type: "choice",
@@ -27,7 +24,7 @@ export const getPropertiesData = async (): Promise<{
     },
     {
       type: "input",
-      name: "intakeURL",
+      name: "intakeUrl",
       message:
         "Enter a custom intake URL if you use one. If you don't use one, just press enter.",
     },
