@@ -2,6 +2,7 @@ import { Command, Option } from "clipanion";
 import { addDependencies } from "./add-dependencies/add-dependencies";
 import { applyGradleTask } from "./apply-gradle-task/apply-gradle-task";
 import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-build-phase";
+import { createPropertiesFiles } from "./create-properties-files/create-properties-files";
 
 export class SetupCommand extends Command {
   static paths = [];
@@ -14,5 +15,6 @@ export class SetupCommand extends Command {
     await addDependencies(this.absoluteProjectPath);
     await changeXCodeBuildPhase(this.absoluteProjectPath);
     await applyGradleTask(this.absoluteProjectPath);
+    await createPropertiesFiles(this.absoluteProjectPath);
   }
 }

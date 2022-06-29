@@ -3,6 +3,16 @@ import { copyFileSync, unlinkSync } from "fs";
 import { SetupCommand } from "../setup";
 import { getAbsolutePath } from "../__test-utils__/get-absolute-path";
 
+jest.mock("../create-properties-files/get-properties-data", () => ({
+  getPropertiesData: () => {
+    return new Promise((resolve) =>
+      resolve({
+        apiKey: "api-key",
+      })
+    );
+  },
+}));
+
 const makeCli = () => {
   const cli = new Cli();
   cli.register(SetupCommand);
@@ -17,6 +27,7 @@ const absoluteProjectPath = getAbsolutePath(
 afterEach(() => {
   try {
     unlinkSync(`${absoluteProjectPath}/ios/datadog-sourcemaps.sh`);
+    unlinkSync(`${absoluteProjectPath}/datadog-sourcemaps.properties`);
     copyFileSync(
       `${absoluteProjectPath}/../rn69.project.pbxproj`,
       `${absoluteProjectPath}/ios/MyApp.xcodeproj/project.pbxproj`
