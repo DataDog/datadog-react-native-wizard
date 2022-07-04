@@ -1,7 +1,7 @@
 export class Printer {
   constructor() {}
 
-  public printStartMessage = () => {};
+  public printCommandName = () => {};
 
   public startStep = () => {};
 

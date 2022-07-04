@@ -10,25 +10,25 @@ import { Printer } from "./Printer";
 
 export class StepsCommand {
   private steps: Step[];
-  private startMessage: string[];
+  private name: string;
   private printer: Printer;
 
   constructor({
     steps,
-    startMessage,
+    name,
     output,
   }: {
     steps: Step[];
-    startMessage: string[];
+    name: string;
     output: Output;
   }) {
     this.steps = steps;
-    this.startMessage = startMessage;
+    this.name = name;
     this.printer = new Printer(output);
   }
 
   public run = async () => {
-    this.printer.printStartMessage(this.startMessage);
+    this.printer.printCommandName(this.name);
 
     let results: StepResult[] = [];
     for (let stepIndex = 0; stepIndex < this.steps.length; stepIndex++) {
@@ -67,7 +67,7 @@ export class StepsCommand {
     }
 
     const terminatingStep = findTerminatingStep(results);
-    this.printer.printEndMessage(results, terminatingStep);
+    this.printer.printEndMessage(results, this.name, terminatingStep);
     if (terminatingStep) {
       return 1;
     }

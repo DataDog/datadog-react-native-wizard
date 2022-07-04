@@ -12,10 +12,8 @@ export class Printer {
     this.stderr = output.stderr;
   }
 
-  public printStartMessage = (message: string[]) => {
-    message.forEach((line) => {
-      this.stdout.write(`${line}\n`);
-    });
+  public printCommandName = (name: string) => {
+    this.stdout.write(`Starting command: ${chalk.bold(name)}\n`);
   };
 
   public startStep = (name: string) => {
@@ -59,10 +57,11 @@ export class Printer {
 
   public printEndMessage = (
     results: StepResult[],
+    name: string,
     terminatingStepResult?: ErrorStepResult
   ) => {
     this.stdout.write(
-      `\n\n🐕🪄 ${chalk.bold("Datadog React Native wizard summary")}\n\n`
+      `\n\n${chalk.bold(`Finished running command ${name}`)}\n\n`
     );
     results.forEach((result) => {
       this.printStepResult(result);

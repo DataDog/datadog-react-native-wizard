@@ -46,7 +46,7 @@ export class SetupCommand extends Command {
           errorHandler: defaultErrorHandler,
         },
       ],
-      startMessage: ["Starting setup of automated datadog sourcemaps"],
+      name: "Setup the automated upload of javascript sourcemaps to Datadog",
     });
 
     await setupCommand.run();
