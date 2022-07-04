@@ -1,14 +1,15 @@
 import chalk from "chalk";
 import { WriteStream } from "tty";
+import { Output } from "../output/interface";
 import { ErrorStepResult, StepResult } from "./interface";
 
 export class Printer {
   private stdout: WriteStream;
   private stderr: WriteStream;
 
-  constructor(stdout: WriteStream, stderr: WriteStream) {
-    this.stdout = stdout;
-    this.stderr = stderr;
+  constructor(output: Output) {
+    this.stdout = output.stdout;
+    this.stderr = output.stderr;
   }
 
   public printStartMessage = (message: string[]) => {

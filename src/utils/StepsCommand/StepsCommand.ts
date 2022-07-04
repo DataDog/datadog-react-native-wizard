@@ -1,5 +1,4 @@
-import { resolve } from "path";
-import { WriteStream } from "tty";
+import { Output } from "../output/interface";
 import {
   ErrorStepResult,
   SkippedStepResult,
@@ -19,19 +18,17 @@ export class StepsCommand {
     steps,
     startMessage,
     endMessage,
-    stdout,
-    stderr,
+    output,
   }: {
     steps: Step[];
     startMessage: string[];
     endMessage: (results: StepResult[]) => Promise<string[]>;
-    stdout: WriteStream;
-    stderr: WriteStream;
+    output: Output;
   }) {
     this.steps = steps;
     this.startMessage = startMessage;
     this.endMessage = endMessage;
-    this.printer = new Printer(stdout, stderr);
+    this.printer = new Printer(output);
   }
 
   public run = async () => {

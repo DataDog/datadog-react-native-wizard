@@ -19,12 +19,11 @@ export class SetupCommand extends Command {
     const output: Output = {
       stderr: process.stderr,
       stdout: process.stdout,
-    }
+    };
 
     const absoluteProjectPath = this.absoluteProjectPath;
     const setupCommand = new StepsCommand({
-      stderr: process.stderr,
-      stdout: process.stdout,
+      output,
       steps: [
         {
           name: "get sourcemaps upload variables",
