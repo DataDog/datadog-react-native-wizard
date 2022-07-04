@@ -47,11 +47,6 @@ export class SetupCommand extends Command {
         },
       ],
       startMessage: ["Starting setup of automated datadog sourcemaps"],
-      endMessage: async (results) =>
-        results.reduce<string[]>(
-          (output, result) => [...output, JSON.stringify(result)],
-          []
-        ),
     });
 
     await setupCommand.run();

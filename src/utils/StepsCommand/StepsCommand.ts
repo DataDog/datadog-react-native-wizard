@@ -11,23 +11,19 @@ import { Printer } from "./Printer";
 export class StepsCommand {
   private steps: Step[];
   private startMessage: string[];
-  private endMessage: (results: StepResult[]) => Promise<string[]>;
   private printer: Printer;
 
   constructor({
     steps,
     startMessage,
-    endMessage,
     output,
   }: {
     steps: Step[];
     startMessage: string[];
-    endMessage: (results: StepResult[]) => Promise<string[]>;
     output: Output;
   }) {
     this.steps = steps;
     this.startMessage = startMessage;
-    this.endMessage = endMessage;
     this.printer = new Printer(output);
   }
 
