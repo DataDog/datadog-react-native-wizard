@@ -1,4 +1,5 @@
 import { Command, Option } from "clipanion";
+import { Output } from "../../utils/output/interface";
 import { defaultErrorHandler } from "../../utils/StepsCommand/default-error-handler";
 import { StepsCommand } from "../../utils/StepsCommand/StepsCommand";
 import { addDependencies } from "./add-dependencies/add-dependencies";
@@ -15,6 +16,11 @@ export class SetupCommand extends Command {
       this.absoluteProjectPath = process.cwd();
     }
 
+    const output: Output = {
+      stderr: process.stderr,
+      stdout: process.stdout,
+    }
+
     const absoluteProjectPath = this.absoluteProjectPath;
     const setupCommand = new StepsCommand({
       stderr: process.stderr,
@@ -27,7 +33,7 @@ export class SetupCommand extends Command {
         },
         {
           name: "add required dependencies",
-          stepFunction: () => addDependencies(absoluteProjectPath),
+          stepFunction: () => addDependencies(absoluteProjectPath, output),
           errorHandler: defaultErrorHandler,
         },
         {
