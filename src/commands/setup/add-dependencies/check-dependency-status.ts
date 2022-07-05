@@ -1,7 +1,7 @@
 import {
   formatDependencyVersion,
   isDependencyVersionOver,
-} from "../utils/get-rn-version";
+} from "../utils/dependency-utils";
 
 export const checkDependencyStatus = (
   dependencyName: string,

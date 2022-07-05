@@ -1,5 +1,5 @@
 import { ReactNativeProjectError } from "../errors";
-import { getRNVersion } from "../utils/get-rn-version";
+import { getRNVersion } from "../utils/dependency-utils";
 
 export const checkIsRNProject = (absoluteProjectPath: string) => {
   try {

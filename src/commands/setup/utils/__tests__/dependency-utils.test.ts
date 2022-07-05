@@ -1,7 +1,7 @@
 import {
   formatDependencyVersion,
   isDependencyVersionOver,
-} from "../get-rn-version";
+} from "../dependency-utils";
 
 describe("get package version", () => {
   describe("isPackageVersionOver", () => {

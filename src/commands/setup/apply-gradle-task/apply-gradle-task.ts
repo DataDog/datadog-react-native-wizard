@@ -2,7 +2,7 @@ import { DatadogCoreTooOldError } from "../errors";
 import {
   getDatadogVersion,
   isDependencyVersionOver,
-} from "../utils/get-rn-version";
+} from "../utils/dependency-utils";
 import { injectTaskInAppBuildGradleFile } from "./inject-task-in-app-build-gradle-file";
 
 export const applyGradleTask = (absoluteProjectPath: string) => {
