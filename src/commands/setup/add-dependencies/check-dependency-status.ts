@@ -1,3 +1,8 @@
+import {
+  formatDependencyVersion,
+  isPackageVersionOver,
+} from "../utils/get-rn-version";
+
 export const checkDependencyStatus = (
   dependencyName: string,
   minVersion: string,
@@ -10,15 +15,11 @@ export const checkDependencyStatus = (
     return "NOT_INSTALLED";
   }
 
-  const installedVersionAsArray = installedVersion.split(".");
-  const minVersionAsArray = minVersion.split(".");
   if (
-    minVersionAsArray.some(
-      (value, index) => value > installedVersionAsArray[index] || 0
-    )
+    isPackageVersionOver(formatDependencyVersion(installedVersion), minVersion)
   ) {
-    return "OUTDATED";
+    return "OK";
   }
 
-  return "OK";
+  return "OUTDATED";
 };
