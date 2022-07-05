@@ -56,9 +56,8 @@ export class StepsCommand {
         const stepError = await step.errorHandler(error);
         const stepResult: ErrorStepResult = {
           status: "error",
-          error: stepError.error,
-          terminating: stepError.terminating,
           name: step.name,
+          ...stepError,
         };
 
         results.push(stepResult);

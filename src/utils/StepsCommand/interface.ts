@@ -13,6 +13,7 @@ export type ErrorStepResult = {
   terminating: boolean;
   name: string;
   error: unknown;
+  details?: string[];
 };
 
 export type SkippedStepResult = {
@@ -22,6 +23,7 @@ export type SkippedStepResult = {
 export interface StepError {
   terminating: boolean;
   error: unknown;
+  details?: string[];
 }
 
 export type Step = {

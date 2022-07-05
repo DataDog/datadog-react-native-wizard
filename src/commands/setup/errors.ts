@@ -4,3 +4,10 @@ export class ReactNativeProjectError extends Error {
     this.name = "ReactNativeProjectError";
   }
 }
+
+export class DatadogCoreTooOldError extends Error {
+  constructor(message?: string) {
+    super(message);
+    this.name = "DatadogCoreTooOldError";
+  }
+}

@@ -1,10 +1,13 @@
 import { Command, Option } from "clipanion";
 import { Output } from "../../utils/output/interface";
-import { defaultErrorHandler } from "../../utils/StepsCommand/default-error-handler";
+import { defaultErrorHandlerWithDetails } from "../../utils/StepsCommand/default-error-handler";
 import { StepsCommand } from "../../utils/StepsCommand/StepsCommand";
 import { addDependencies } from "./add-dependencies/add-dependencies";
+import { addDependenciesErrorDetails } from "./add-dependencies/error-details";
 import { applyGradleTask } from "./apply-gradle-task/apply-gradle-task";
+import { applyGradleTaskErrorHandler } from "./apply-gradle-task/error-handler";
 import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-build-phase";
+import { changeXCodeBuildPhaseErrorDetails } from "./change-xcode-build-phase/error-details";
 import { createPropertiesFiles } from "./create-properties-files/create-properties-files";
 
 export class SetupCommand extends Command {
@@ -28,22 +31,26 @@ export class SetupCommand extends Command {
         {
           name: "get sourcemaps upload variables",
           stepFunction: () => createPropertiesFiles(absoluteProjectPath),
-          errorHandler: defaultErrorHandler,
+          errorHandler: defaultErrorHandlerWithDetails([]),
         },
         {
           name: "add required dependencies",
           stepFunction: () => addDependencies(absoluteProjectPath, output),
-          errorHandler: defaultErrorHandler,
+          errorHandler: defaultErrorHandlerWithDetails(
+            addDependenciesErrorDetails
+          ),
         },
         {
           name: "automate sourcemaps upload on iOS builds",
           stepFunction: () => changeXCodeBuildPhase(absoluteProjectPath),
-          errorHandler: defaultErrorHandler,
+          errorHandler: defaultErrorHandlerWithDetails(
+            changeXCodeBuildPhaseErrorDetails
+          ),
         },
         {
           name: "automate android upload on iOS builds",
           stepFunction: () => applyGradleTask(absoluteProjectPath),
-          errorHandler: defaultErrorHandler,
+          errorHandler: applyGradleTaskErrorHandler,
         },
       ],
       name: "Setup the automated upload of javascript sourcemaps to Datadog",

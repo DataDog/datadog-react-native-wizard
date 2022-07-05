@@ -33,7 +33,12 @@ export class Printer {
       this.skipStep(result.name);
     }
     if (result.status === "error") {
-      this.errorStep(result.name, result.terminating, result.error);
+      this.errorStep(
+        result.name,
+        result.terminating,
+        result.error,
+        result.details
+      );
     }
   };
 
@@ -45,7 +50,12 @@ export class Printer {
     this.stdout.write(chalk.yellow(`⚠️ Skipped ${name} step.\n`));
   };
 
-  private errorStep = (name: string, terminating: boolean, error: unknown) => {
+  private errorStep = (
+    name: string,
+    terminating: boolean,
+    error: unknown,
+    details?: string[]
+  ) => {
     this.stdout.write(
       chalk.red(
         `❌ ${
@@ -53,6 +63,14 @@ export class Printer {
         } encountered while running ${name} step.\n`
       )
     );
+    if (details) {
+      details.forEach((line) => {
+        this.stdout.write(`${line}\n`);
+      });
+    }
+    if (error.message) {
+      this.stdout.write(chalk.red(error.message));
+    }
   };
 
   public printEndMessage = (
