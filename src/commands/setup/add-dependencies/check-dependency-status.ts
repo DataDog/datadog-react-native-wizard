@@ -1,6 +1,6 @@
 import {
   formatDependencyVersion,
-  isPackageVersionOver,
+  isDependencyVersionOver,
 } from "../utils/get-rn-version";
 
 export const checkDependencyStatus = (
@@ -16,7 +16,10 @@ export const checkDependencyStatus = (
   }
 
   if (
-    isPackageVersionOver(formatDependencyVersion(installedVersion), minVersion)
+    isDependencyVersionOver(
+      formatDependencyVersion(installedVersion),
+      minVersion
+    )
   ) {
     return "OK";
   }

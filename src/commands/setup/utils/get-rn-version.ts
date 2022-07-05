@@ -20,7 +20,7 @@ export const getDatadogVersion = (absoluteProjectPath: string) => {
   return formatDependencyVersion(RNVersion);
 };
 
-export const isPackageVersionOver = (
+export const isDependencyVersionOver = (
   packageVersion: DependencyVersion,
   limitVersion: string
 ) => {

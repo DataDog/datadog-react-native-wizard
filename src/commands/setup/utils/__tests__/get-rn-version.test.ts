@@ -1,6 +1,6 @@
 import {
   formatDependencyVersion,
-  isPackageVersionOver,
+  isDependencyVersionOver,
 } from "../get-rn-version";
 
 describe("get package version", () => {
@@ -43,7 +43,7 @@ describe("get package version", () => {
       (expected, description, packageVersion, limitVersion) => {
         const formattedPackageVersion = formatDependencyVersion(packageVersion);
         expect(
-          isPackageVersionOver(formattedPackageVersion, limitVersion)
+          isDependencyVersionOver(formattedPackageVersion, limitVersion)
         ).toBe(expected);
       }
     );
