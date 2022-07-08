@@ -1,5 +1,4 @@
 import chalk from "chalk";
-import { StepError } from "../../../utils/StepsCommand/interface";
 import { DatadogCoreTooOldError } from "../errors";
 
 const errorDetails = [

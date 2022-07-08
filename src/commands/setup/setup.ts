@@ -9,6 +9,7 @@ import { applyGradleTaskErrorHandler } from "./apply-gradle-task/error-handler";
 import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-build-phase";
 import { changeXCodeBuildPhaseErrorDetails } from "./change-xcode-build-phase/error-details";
 import { createConfigurationFiles } from "./create-configuration-files/create-configuration-files";
+import { createConfigurationFilesErrorHandler } from "./create-configuration-files/error-handler";
 
 export class SetupCommand extends Command {
   static paths = [];
@@ -31,7 +32,7 @@ export class SetupCommand extends Command {
         {
           name: "get sourcemaps upload variables",
           stepFunction: () => createConfigurationFiles(absoluteProjectPath),
-          errorHandler: defaultErrorHandlerWithDetails([]),
+          errorHandler: createConfigurationFilesErrorHandler,
         },
         {
           name: "add required dependencies",
