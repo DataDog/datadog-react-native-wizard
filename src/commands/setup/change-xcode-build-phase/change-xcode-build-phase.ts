@@ -3,7 +3,7 @@ import {
   PackageManager,
 } from "../utils/get-package-manager";
 import { DependencyVersion, getRNVersion } from "../utils/dependency-utils";
-import { getBin } from "./get-bin";
+import { getBin } from "../utils/get-bin";
 import { getProjectPbxprojFile } from "../utils/get-project-pbxproj-file";
 import { RN63BuildPhaseEditor } from "./xcode-build-phase-editor/rn63/rn63-build-phase-editor";
 import { RN69BuildPhaseEditor } from "./xcode-build-phase-editor/rn69/rn69-build-phase-editor";
