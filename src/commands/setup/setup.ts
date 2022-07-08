@@ -37,7 +37,8 @@ export class SetupCommand extends Command {
       steps: [
         {
           name: "get sourcemaps upload variables",
-          stepFunction: () => createConfigurationFiles(absoluteProjectPath),
+          stepFunction: (store) =>
+            createConfigurationFiles(absoluteProjectPath, store),
           errorHandler: createConfigurationFilesErrorHandler,
         },
         {
