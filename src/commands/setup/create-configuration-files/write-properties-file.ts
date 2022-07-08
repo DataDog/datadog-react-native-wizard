@@ -1,11 +1,11 @@
 import { createWriteStream } from "fs";
 import { EOL } from "os";
 import { asyncCloseWriteStream } from "../utils/edit-file";
-import { PropertiesData } from "./interface";
+import { ConfigurationData } from "./interface";
 
 export const writePropertiesFile = async (
   absoluteFilePath: string,
-  params: PropertiesData
+  params: ConfigurationData
 ) => {
   const propertiesFileLines = generatePropertiesFileLines(params);
   if (propertiesFileLines.length === 0) {
@@ -21,7 +21,7 @@ export const writePropertiesFile = async (
   await asyncCloseWriteStream(writer);
 };
 
-const generatePropertiesFileLines = (params: PropertiesData): string[] => {
+const generatePropertiesFileLines = (params: ConfigurationData): string[] => {
   const lines: string[] = [];
 
   if (params.apiKey) {

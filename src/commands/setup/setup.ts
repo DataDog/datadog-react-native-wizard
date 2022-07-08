@@ -8,7 +8,7 @@ import { applyGradleTask } from "./apply-gradle-task/apply-gradle-task";
 import { applyGradleTaskErrorHandler } from "./apply-gradle-task/error-handler";
 import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-build-phase";
 import { changeXCodeBuildPhaseErrorDetails } from "./change-xcode-build-phase/error-details";
-import { createPropertiesFiles } from "./create-properties-files/create-properties-files";
+import { createConfigurationFiles } from "./create-configuration-files/create-configuration-files";
 
 export class SetupCommand extends Command {
   static paths = [];
@@ -30,7 +30,7 @@ export class SetupCommand extends Command {
       steps: [
         {
           name: "get sourcemaps upload variables",
-          stepFunction: () => createPropertiesFiles(absoluteProjectPath),
+          stepFunction: () => createConfigurationFiles(absoluteProjectPath),
           errorHandler: defaultErrorHandlerWithDetails([]),
         },
         {

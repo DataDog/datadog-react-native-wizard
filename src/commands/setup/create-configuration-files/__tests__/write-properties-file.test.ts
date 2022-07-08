@@ -3,7 +3,7 @@ import { getAbsolutePath } from "../../__test-utils__/get-absolute-path";
 import { writePropertiesFile } from "../write-properties-file";
 
 const testFilePath = getAbsolutePath(
-  "src/commands/setup/create-properties-files/__tests__/properties.log"
+  "src/commands/setup/create-configuration-files/__tests__/properties.log"
 );
 
 afterEach(() => {
@@ -25,7 +25,7 @@ describe("writePropertiesFile", () => {
     // @ts-ignore
     expect(testFilePath).toMatchFile(
       getAbsolutePath(
-        "src/commands/setup/create-properties-files/__tests__/results/us.datadog-sourcemaps.properties"
+        "src/commands/setup/create-configuration-files/__tests__/results/us.datadog-sourcemaps.properties"
       )
     );
   });
@@ -46,7 +46,7 @@ describe("writePropertiesFile", () => {
     // @ts-ignore
     expect(testFilePath).toMatchFile(
       getAbsolutePath(
-        "src/commands/setup/create-properties-files/__tests__/results/eu.datadog-sourcemaps.properties"
+        "src/commands/setup/create-configuration-files/__tests__/results/eu.datadog-sourcemaps.properties"
       )
     );
   });

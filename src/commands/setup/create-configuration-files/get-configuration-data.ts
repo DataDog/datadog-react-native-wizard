@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
-import { PropertiesData } from "./interface";
+import { ConfigurationData } from "./interface";
 
-export const getPropertiesData = async (): Promise<PropertiesData> => {
+export const getConfigurationData = async (): Promise<ConfigurationData> => {
   return inquirer.prompt([
     {
       type: "input",

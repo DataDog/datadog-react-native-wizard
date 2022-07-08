@@ -5,8 +5,8 @@ import { getAbsolutePath } from "../__test-utils__/get-absolute-path";
 
 jest.mock("../../../utils/StepsCommand/Printer");
 
-jest.mock("../create-properties-files/get-properties-data", () => ({
-  getPropertiesData: () => {
+jest.mock("../create-configuration-files/get-configuration-data", () => ({
+  getConfigurationData: () => {
     return new Promise((resolve) =>
       resolve({
         apiKey: "api-key",
