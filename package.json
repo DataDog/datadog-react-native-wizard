@@ -8,6 +8,7 @@
   "scripts": {
     "build": "yarn clean; tsc",
     "clean": "rm -rf dist/*",
+    "check-licenses": "node bin/check-licenses.js",
     "launch": "ts-node --transpile-only src/cli.ts",
     "test": "jest"
   },
