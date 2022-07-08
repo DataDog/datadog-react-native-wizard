@@ -11,3 +11,10 @@ export class DatadogCoreTooOldError extends Error {
     this.name = "DatadogCoreTooOldError";
   }
 }
+
+export class DatadogCiConfigFileAlreadyExists extends Error {
+  constructor(message?: string) {
+    super(message);
+    this.name = "DatadogCiConfigFileAlreadyExists";
+  }
+}

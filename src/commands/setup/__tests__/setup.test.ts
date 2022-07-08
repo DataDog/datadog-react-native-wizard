@@ -5,15 +5,7 @@ import { getAbsolutePath } from "../__test-utils__/get-absolute-path";
 
 jest.mock("../../../utils/StepsCommand/Printer");
 
-jest.mock("../create-configuration-files/get-configuration-data", () => ({
-  getConfigurationData: () => {
-    return new Promise((resolve) =>
-      resolve({
-        apiKey: "api-key",
-      })
-    );
-  },
-}));
+jest.mock("../create-configuration-files/get-configuration-data");
 
 const makeCli = () => {
   const cli = new Cli();
@@ -29,7 +21,6 @@ const absoluteProjectPath = getAbsolutePath(
 afterEach(() => {
   try {
     unlinkSync(`${absoluteProjectPath}/ios/datadog-sourcemaps.sh`);
-    unlinkSync(`${absoluteProjectPath}/datadog-ci.json`);
     copyFileSync(
       `${absoluteProjectPath}/../rn69.project.pbxproj`,
       `${absoluteProjectPath}/ios/MyApp.xcodeproj/project.pbxproj`
