@@ -1,10 +1,8 @@
 import { getConfigurationData } from "./get-configuration-data";
-import { writePropertiesFile } from "./write-properties-file";
+import { writeDatadogCiJsonFile } from "./write-datadog-ci-json-file";
 
 export const createConfigurationFiles = async (absoluteProjectPath: string) => {
-  const properties = await getConfigurationData();
-  await writePropertiesFile(
-    `${absoluteProjectPath}/datadog-sourcemaps.properties`,
-    properties
-  );
+  const configuration = await getConfigurationData();
+  const configurationFilePath = `${absoluteProjectPath}/datadog-ci.json`;
+  await writeDatadogCiJsonFile(configurationFilePath, configuration);
 };

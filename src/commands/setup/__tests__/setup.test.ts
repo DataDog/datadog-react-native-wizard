@@ -29,7 +29,7 @@ const absoluteProjectPath = getAbsolutePath(
 afterEach(() => {
   try {
     unlinkSync(`${absoluteProjectPath}/ios/datadog-sourcemaps.sh`);
-    unlinkSync(`${absoluteProjectPath}/datadog-sourcemaps.properties`);
+    unlinkSync(`${absoluteProjectPath}/datadog-ci.json`);
     copyFileSync(
       `${absoluteProjectPath}/../rn69.project.pbxproj`,
       `${absoluteProjectPath}/ios/MyApp.xcodeproj/project.pbxproj`
