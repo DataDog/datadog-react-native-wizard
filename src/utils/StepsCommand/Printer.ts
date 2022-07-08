@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { WriteStream } from "tty";
+import { getErrorMessage } from "../error-utils";
 import { Output } from "../output/interface";
 import { ErrorStepResult, StepResult } from "./interface";
 
@@ -68,8 +69,8 @@ export class Printer {
         this.stdout.write(`${line}\n`);
       });
     }
-    if (error.message) {
-      this.stdout.write(chalk.red(error.message));
+    if (getErrorMessage(error)) {
+      this.stdout.write(chalk.red(getErrorMessage(error)));
     }
   };
 
