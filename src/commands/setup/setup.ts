@@ -4,6 +4,8 @@ import { defaultErrorHandlerWithDetails } from "../../utils/StepsCommand/default
 import { StepsCommand } from "../../utils/StepsCommand/StepsCommand";
 import { addDependencies } from "./add-dependencies/add-dependencies";
 import { addDependenciesErrorDetails } from "./add-dependencies/error-details";
+import { addXCodeDsymsBuildPhase } from "./add-xcode-dsyms-build-phase/add-xcode-dsyms-build-phase";
+import { addXCodeDsymsBuildPhaseErrorDetails } from "./add-xcode-dsyms-build-phase/error-details";
 import { applyGradleTask } from "./apply-gradle-task/apply-gradle-task";
 import { applyGradleTaskErrorHandler } from "./apply-gradle-task/error-handler";
 import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-build-phase";
@@ -49,9 +51,16 @@ export class SetupCommand extends Command {
           ),
         },
         {
-          name: "automate android upload on iOS builds",
+          name: "automate sourcemaps upload on Android builds",
           stepFunction: () => applyGradleTask(absoluteProjectPath),
           errorHandler: applyGradleTaskErrorHandler,
+        },
+        {
+          name: "automate dSYMs upload on iOS builds",
+          stepFunction: () => addXCodeDsymsBuildPhase(absoluteProjectPath),
+          errorHandler: defaultErrorHandlerWithDetails(
+            addXCodeDsymsBuildPhaseErrorDetails
+          ),
         },
       ],
       name: "Setup the automated upload of javascript sourcemaps to Datadog",
