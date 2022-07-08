@@ -7,24 +7,29 @@ import {
   SuccessfulStepResult,
 } from "./interface";
 import { Printer } from "./Printer";
+import { Store } from "./Store";
 
-export class StepsCommand {
-  private steps: Step[];
+export class StepsCommand<StateType extends object | void> {
+  private steps: Step<StateType>[];
   private name: string;
   private printer: Printer;
+  private store: Store<StateType>;
 
   constructor({
     steps,
     name,
     output,
+    initialState,
   }: {
-    steps: Step[];
+    steps: Step<StateType>[];
     name: string;
     output: Output;
+    initialState: StateType;
   }) {
     this.steps = steps;
     this.name = name;
     this.printer = new Printer(output);
+    this.store = new Store(initialState);
   }
 
   public run = async () => {
@@ -46,7 +51,7 @@ export class StepsCommand {
       }
 
       try {
-        await step.stepFunction();
+        await step.stepFunction(this.store);
         const stepResult: SuccessfulStepResult = {
           status: "success",
           name: step.name,

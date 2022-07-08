@@ -1,3 +1,5 @@
+import { Store } from "./Store";
+
 export type StepResult =
   | SuccessfulStepResult
   | ErrorStepResult
@@ -26,8 +28,8 @@ export interface StepError {
   details?: string[];
 }
 
-export type Step = {
-  stepFunction: (...args: unknown[]) => unknown;
+export type Step<StateType extends object | void> = {
+  stepFunction: (store: Store<StateType>) => unknown;
   errorHandler: (error: unknown) => Promise<StepError>;
   name: string;
 };

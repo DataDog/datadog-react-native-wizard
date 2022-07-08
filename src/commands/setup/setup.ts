@@ -13,6 +13,10 @@ import { changeXCodeBuildPhaseErrorDetails } from "./change-xcode-build-phase/er
 import { createConfigurationFiles } from "./create-configuration-files/create-configuration-files";
 import { createConfigurationFilesErrorHandler } from "./create-configuration-files/error-handler";
 
+type CommandStateType = {
+  datadogSite?: string;
+};
+
 export class SetupCommand extends Command {
   static paths = [];
   absoluteProjectPath = Option.String({ required: false });
@@ -28,7 +32,7 @@ export class SetupCommand extends Command {
     };
 
     const absoluteProjectPath = this.absoluteProjectPath;
-    const setupCommand = new StepsCommand({
+    const setupCommand = new StepsCommand<CommandStateType>({
       output,
       steps: [
         {
@@ -64,6 +68,7 @@ export class SetupCommand extends Command {
         },
       ],
       name: "Setup the automated upload of javascript sourcemaps to Datadog",
+      initialState: {},
     });
 
     await setupCommand.run();
