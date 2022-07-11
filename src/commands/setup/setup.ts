@@ -12,9 +12,10 @@ import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-b
 import { changeXCodeBuildPhaseErrorDetails } from "./change-xcode-build-phase/error-details";
 import { createConfigurationFiles } from "./create-configuration-files/create-configuration-files";
 import { createConfigurationFilesErrorHandler } from "./create-configuration-files/error-handler";
+import { DatadogSite } from "./interface";
 
 type CommandStateType = {
-  datadogSite?: string;
+  datadogSite?: DatadogSite;
 };
 
 export class SetupCommand extends Command {

@@ -1,5 +1,16 @@
 import inquirer from "inquirer";
+import { DatadogSite } from "../interface";
 import { ConfigurationData } from "./interface";
+
+// Keeping this variable apart to ensure typing on DatdogSite as
+// Inquirer does not progate typing
+const siteChoices: { name: string; value: DatadogSite }[] = [
+  { name: "US", value: "US" },
+  { name: "EU", value: "EU" },
+  { name: "US3", value: "US3" },
+  { name: "US5", value: "US5" },
+  { name: "GOV", value: "GOV" },
+];
 
 export const getConfigurationData = async (): Promise<ConfigurationData> => {
   return inquirer.prompt([
@@ -14,13 +25,7 @@ export const getConfigurationData = async (): Promise<ConfigurationData> => {
       name: "site",
       message: "Select the site of your organization.",
       default: "US",
-      choices: [
-        { name: "US", value: "US" },
-        { name: "EU", value: "EU" },
-        { name: "US3", value: "US3" },
-        { name: "US5", value: "US5" },
-        { name: "GOV", value: "GOV" },
-      ],
+      choices: siteChoices,
     },
     {
       type: "input",

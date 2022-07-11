@@ -1,10 +1,11 @@
 import { EOL } from "os";
+import { DatadogSite } from "../interface";
 import { editFile } from "../utils/edit-file";
 
 export const injectPluginInBuildGradle = async (
   androidAppBuildGradleInputFile: string,
   androidAppBuildGradleOutputFile: string,
-  state: { datadogSite?: string }
+  state: { datadogSite?: DatadogSite }
 ) => {
   let hasAddedPluginAndConfiguration = false;
   let hasAddedAutomation = false;
@@ -53,7 +54,13 @@ export const injectPluginInBuildGradle = async (
   }
 };
 
-const getDatadogSiteLine = (datadogSite?: string): string => {
+/**
+ * For now our sites match with the configuration here: https://github.com/DataDog/dd-sdk-android-gradle-plugin/blob/develop/dd-sdk-android-gradle-plugin/src/main/kotlin/com/datadog/gradle/plugin/DatadogSite.kt
+ * This "duplicated" typing is to ensure we don't accidentaly break compatibility here
+ */
+type GradlePluginDatadogSite = "US" | "EU" | "US3" | "US5" | "GOV";
+
+const getDatadogSiteLine = (datadogSite?: GradlePluginDatadogSite): string => {
   if (!datadogSite) return "";
   return `    site = "${datadogSite}"`;
 };
