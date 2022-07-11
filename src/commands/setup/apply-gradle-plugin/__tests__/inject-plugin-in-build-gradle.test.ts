@@ -1,9 +1,18 @@
+import { unlinkSync } from "fs";
 import { getAbsolutePath } from "../../__test-utils__/get-absolute-path";
 import { injectPluginInBuildGradle } from "../inject-plugin-in-build-gradle";
 
 const testFilePath = getAbsolutePath(
   "src/commands/setup/apply-gradle-plugin/__tests__/build.gradle.log"
 );
+
+afterEach(() => {
+  try {
+    unlinkSync(testFilePath);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 describe("injectPluginInBuildGradle", () => {
   it("injects the plugin and correct configuration with US site", async () => {
