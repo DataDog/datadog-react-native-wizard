@@ -18,3 +18,16 @@ export class DatadogCiConfigFileAlreadyExists extends Error {
     this.name = "DatadogCiConfigFileAlreadyExists";
   }
 }
+
+export class GradlePluginNotInstalled extends Error {
+  constructor(message?: string) {
+    super(message);
+    this.name = "GradlePluginNotInstalled";
+  }
+}
+export class GradlePluginNotAutomated extends Error {
+  constructor(message?: string) {
+    super(message);
+    this.name = "GradlePluginNotAutomated";
+  }
+}

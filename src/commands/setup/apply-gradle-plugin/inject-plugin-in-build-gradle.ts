@@ -1,4 +1,5 @@
 import { EOL } from "os";
+import { GradlePluginNotAutomated, GradlePluginNotInstalled } from "../errors";
 import { DatadogSite } from "../interface";
 import { editFile } from "../utils/edit-file";
 
@@ -30,7 +31,7 @@ export const injectPluginInBuildGradle = async (
         return `${installationBlock}${EOL}${line}`;
       }
 
-      if (line.match("variant ->") && !hasAddedAutomation) {
+      if (line.match("applicationVariants.all") && !hasAddedAutomation) {
         hasAddedAutomation = true;
         const automationBlock = [
           `        if (project.tasks.findByName("minify\${variant.name.capitalize()}WithR8")) {`,
@@ -47,10 +48,10 @@ export const injectPluginInBuildGradle = async (
   );
 
   if (!hasAddedPluginAndConfiguration) {
-    throw new Error("could not init plugin");
+    throw new GradlePluginNotInstalled();
   }
   if (!hasAddedAutomation) {
-    throw new Error("could not add automation");
+    throw new GradlePluginNotAutomated();
   }
 };
 

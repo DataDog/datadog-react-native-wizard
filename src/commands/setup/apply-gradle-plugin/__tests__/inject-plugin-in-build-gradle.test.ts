@@ -1,4 +1,5 @@
 import { unlinkSync } from "fs";
+import { GradlePluginNotAutomated } from "../../errors";
 import { getAbsolutePath } from "../../__test-utils__/get-absolute-path";
 import { injectPluginInBuildGradle } from "../inject-plugin-in-build-gradle";
 
@@ -47,5 +48,17 @@ describe("injectPluginInBuildGradle", () => {
         "src/commands/setup/apply-gradle-plugin/__tests__/results/no-site.build.gradle"
       )
     );
+  });
+
+  it("throws an error if the plugin could not be automated", async () => {
+    await expect(
+      injectPluginInBuildGradle(
+        getAbsolutePath(
+          "src/commands/setup/apply-gradle-plugin/__tests__/fixtures/no-variant-loop.build.gradle"
+        ),
+        testFilePath,
+        {}
+      )
+    ).rejects.toThrowError(GradlePluginNotAutomated);
   });
 });
