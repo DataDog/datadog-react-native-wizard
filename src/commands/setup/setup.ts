@@ -6,6 +6,8 @@ import { addDependencies } from "./add-dependencies/add-dependencies";
 import { addDependenciesErrorDetails } from "./add-dependencies/error-details";
 import { addXCodeDsymsBuildPhase } from "./add-xcode-dsyms-build-phase/add-xcode-dsyms-build-phase";
 import { addXCodeDsymsBuildPhaseErrorDetails } from "./add-xcode-dsyms-build-phase/error-details";
+import { applyGradlePlugin } from "./apply-gradle-plugin/apply-gradle-plugin";
+import { applyGradlePluginErrorHandler } from "./apply-gradle-plugin/error-handler";
 import { applyGradleTask } from "./apply-gradle-task/apply-gradle-task";
 import { applyGradleTaskErrorHandler } from "./apply-gradle-task/error-handler";
 import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-build-phase";
@@ -67,6 +69,12 @@ export class SetupCommand extends Command {
           errorHandler: defaultErrorHandlerWithDetails(
             addXCodeDsymsBuildPhaseErrorDetails
           ),
+        },
+        {
+          name: "automate proguard mapping files upload on android builds",
+          stepFunction: (store) =>
+            applyGradlePlugin(absoluteProjectPath, store),
+          errorHandler: applyGradlePluginErrorHandler,
         },
       ],
       name: "Setup the automated upload of javascript sourcemaps to Datadog",

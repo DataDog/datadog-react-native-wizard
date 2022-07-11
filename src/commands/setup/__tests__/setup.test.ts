@@ -6,6 +6,7 @@ import { getAbsolutePath } from "../__test-utils__/get-absolute-path";
 jest.mock("../../../utils/StepsCommand/Printer");
 
 jest.mock("../create-configuration-files/get-configuration-data");
+jest.mock("../apply-gradle-plugin/ask-is-obfuscation-enabled.ts");
 
 const makeCli = () => {
   const cli = new Cli();
