@@ -91,6 +91,12 @@ export class Printer {
         `Process was stopped due to error in step ${terminatingStepResult.name}\n`
       );
       this.stderr.write(`${terminatingStepResult.error}`);
+    } else {
+      this.stdout.write(
+        `\nKeep in mind that this tool is brand new. ${chalk.redBright.bold(
+          `Check your git changes before committing them.`
+        )}\nIf you have any issue, please go to https://github.com/DataDog/datadog-react-native-wizard/issues`
+      );
     }
   };
 }
