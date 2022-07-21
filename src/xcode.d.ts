@@ -9,6 +9,7 @@ declare module "xcode" {
       target: unknown,
       optionsOrFolderType: {
         shellScript: string;
+        shellPath: string;
       },
       subfolderPath?: unknown
     ): { uuid: string; buildPhase: unknown };

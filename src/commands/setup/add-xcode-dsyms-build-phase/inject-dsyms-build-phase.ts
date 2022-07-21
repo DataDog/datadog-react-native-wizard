@@ -14,7 +14,6 @@ export const injectDsymsBuildPhase = async (params: {
 
   return new Promise((resolve, reject) => {
     xcodeProject.parse((error: unknown) => {
-      debugger;
       if (error) {
         reject(error);
       }
@@ -26,6 +25,7 @@ export const injectDsymsBuildPhase = async (params: {
         null /* target */,
         {
           shellScript: `set -e\\n${params.nodeBin} ${params.packageManagerBin} datadog-ci dsyms upload $DWARF_DSYM_FOLDER_PATH`,
+          shellPath: "/bin/sh",
         }
       );
 
