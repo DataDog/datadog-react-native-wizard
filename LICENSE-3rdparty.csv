@@ -1,12 +1,12 @@
 Component,Origin,Licence,Copyright
-@types/inquirer,dev,MIT,Copyright Microsoft Corporation
-@types/jest,dev,MIT,Copyright Microsoft Corporation
-@types/node,dev,MIT,Copyright Microsoft Corporation
-chalk,import,MIT,Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-clipanion,import,MIT,Copyright (c) 2019 Mael Nison
-inquirer,import,MIT,Copyright (c) 2012 Simon Boudrias
-xcode,import,Apache-2.0,Copyright 2012-2020 The Apache Software Foundation
-jest,dev,MIT,Copyright (c) Facebook, Inc. and its affiliates.
-ts-jest,dev,MIT,Copyright (c) 2016-2018
-ts-node,import,MIT,Copyright (c) 2014 Blake Embrey (hello@blakeembrey.com)
-typescript,dev,Apache-2.0,Copyright (c) Microsoft Corporation.
+@types/inquirer,dev,MIT,"Copyright Microsoft Corporation"
+@types/jest,dev,MIT,"Copyright Microsoft Corporation"
+@types/node,dev,MIT,"Copyright Microsoft Corporation"
+chalk,import,MIT,"Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)"
+clipanion,import,MIT,"Copyright (c) 2019 Mael Nison"
+inquirer,import,MIT,"Copyright (c) 2012 Simon Boudrias"
+xcode,import,Apache-2.0,"Copyright 2012-2020 The Apache Software Foundation"
+jest,dev,MIT,"Copyright (c) Facebook, Inc. and its affiliates."
+ts-jest,dev,MIT,"Copyright (c) 2016-2018"
+ts-node,import,MIT,"Copyright (c) 2014 Blake Embrey (hello@blakeembrey.com)"
+typescript,dev,Apache-2.0,"Copyright (c) Microsoft Corporation."
