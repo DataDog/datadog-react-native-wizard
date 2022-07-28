@@ -262,7 +262,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nexport NODE_BINARY=node\nexport SOURCEMAP_FILE=./build/main.jsbundle.map\n/opt/homebrew/bin/node /opt/homebrew/bin/yarn datadog-ci react-native xcode node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "set -e\n\nexport NODE_BINARY=node\n# If the build runs from XCode, we cannot use yarn.\n# Therefore we need to check first which yarn command is appropriate\npackage_manager_test_command="bin" # both `yarn bin` and `npm bin` are valid commands\ntest_and_set_package_manager_bin()\n{\n  $(echo $1 $package_manager_test_command) && export PACKAGE_MANAGER_BIN=$1\n}\n \ntest_and_set_package_manager_bin "yarn" ||\ntest_and_set_package_manager_bin "/opt/homebrew/bin/node /opt/homebrew/bin/yarn" ||\necho "package manager not found"\n\nexport SOURCEMAP_FILE=./build/main.jsbundle.map\n$(echo $PACKAGE_MANAGER_BIN datadog-ci react-native xcode)\n";
 		};
 		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -16,7 +16,7 @@ export class RN63BuildPhaseEditor extends XCodeBuildPhaseEditor {
     const [beforeScript, afterScript] = line.split(
       "../node_modules/react-native/scripts/react-native-xcode.sh"
     );
-    const datadogScript = `export SOURCEMAP_FILE=./build/main.jsbundle.map\\n${this.nodeBin} ${this.packageManagerBin} datadog-ci react-native xcode node_modules/react-native/scripts/react-native-xcode.sh`;
+    const datadogScript = `# If the build runs from XCode, we cannot use ${this.packageManager}.\\n# Therefore we need to check first which ${this.packageManager} command is appropriate\\npackage_manager_test_command=\"bin\" # both \`yarn bin\` and \`npm bin\` are valid commands\\ntest_and_set_package_manager_bin()\\n{\\n  $(echo $1 $package_manager_test_command) && export PACKAGE_MANAGER_BIN=$1\\n}\\n \\ntest_and_set_package_manager_bin \"${this.packageManager}\" ||\\ntest_and_set_package_manager_bin \"${this.nodeBin} ${this.packageManagerBin}\" ||\\necho \"package manager not found\"\\n\\nexport SOURCEMAP_FILE=./build/main.jsbundle.map\\n$(echo $PACKAGE_MANAGER_BIN datadog-ci react-native xcode)`;
     return `${beforeScript}${datadogScript}${afterScript}`;
   };
 }

@@ -24,7 +24,8 @@ export class RN69BuildPhaseEditor extends XCodeBuildPhaseEditor {
       (line: string) => {
         return line
           .replace("{{nodeBin}}", this.nodeBin)
-          .replace("{{packageManagerBin}}", this.packageManagerBin);
+          .replace("{{packageManagerBin}}", this.packageManagerBin)
+          .replace("{{packageManager}}", this.packageManager);
       }
     );
   };

@@ -1,6 +1,7 @@
 import { editFile } from "../../utils/edit-file";
 
 export abstract class XCodeBuildPhaseEditor {
+  protected packageManager: string;
   protected packageManagerBin: string;
   protected nodeBin: string;
   protected absoluteProjectPath: string;
@@ -8,12 +9,14 @@ export abstract class XCodeBuildPhaseEditor {
   protected outputPbxprojFile: string;
 
   constructor(options: {
+    packageManager: string;
     packageManagerBin: string;
     nodeBin: string;
     absoluteProjectPath: string;
     inputPbxprojFile: string;
     outputPbxprojFile: string;
   }) {
+    this.packageManager = options.packageManager;
     this.packageManagerBin = options.packageManagerBin;
     this.nodeBin = options.nodeBin;
     this.absoluteProjectPath = options.absoluteProjectPath;

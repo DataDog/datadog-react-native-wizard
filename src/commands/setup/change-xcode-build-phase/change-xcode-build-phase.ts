@@ -30,6 +30,7 @@ const getBuildPhaseEditor = async (params: {
 }) => {
   if (params.RNVersion.minor < 69) {
     return new RN63BuildPhaseEditor({
+      packageManager: params.packageManager,
       packageManagerBin: await getBin(params.packageManager),
       nodeBin: await getBin("node"),
       absoluteProjectPath: params.absoluteProjectPath,
@@ -38,6 +39,7 @@ const getBuildPhaseEditor = async (params: {
     });
   }
   return new RN69BuildPhaseEditor({
+    packageManager: params.packageManager,
     packageManagerBin: await getBin(params.packageManager),
     nodeBin: await getBin("node"),
     absoluteProjectPath: params.absoluteProjectPath,

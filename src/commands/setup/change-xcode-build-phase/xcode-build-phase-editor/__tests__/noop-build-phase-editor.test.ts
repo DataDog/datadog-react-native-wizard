@@ -18,6 +18,7 @@ afterEach(() => {
 describe("NoopBuildPhaseEditor", () => {
   it("copies the pbxproj file", async () => {
     const noopBuildPhaseEditor = new NoopBuildPhaseEditor({
+      packageManager: "",
       packageManagerBin: "",
       nodeBin: "",
       absoluteProjectPath: fixturesPath,
