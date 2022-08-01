@@ -1,4 +1,3 @@
-import { Output } from "../../../../utils/output/interface";
 import { getPackageManager } from "../../utils/get-package-manager";
 import { DependencyInstaller } from "./dependency-installer";
 import { npmDependencyInstaller } from "./npm";
