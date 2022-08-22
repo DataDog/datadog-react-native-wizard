@@ -1,8 +1,9 @@
 #!/bin/sh
+set -e
 
 # If the build runs from XCode, we cannot use yarn.
-# Therefore we need to check first which yarn command is appropriate
-package_manager_test_command="bin" # both `yarn bin` and `npm bin` are valid commands
+# Check first which yarn executable is appropriate
+package_manager_test_command="bin" # both `yarn bin` and `npm bin` are valid commands that do nothing
 test_and_set_package_manager_bin()
 {
   $(echo $1 $package_manager_test_command) && export PACKAGE_MANAGER_BIN=$1
