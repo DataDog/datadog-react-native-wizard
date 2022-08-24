@@ -72,8 +72,7 @@ export class SetupCommand extends Command {
         },
         {
           name: "automate proguard mapping files upload on android builds",
-          stepFunction: (store) =>
-            applyGradlePlugin(absoluteProjectPath, store),
+          stepFunction: () => applyGradlePlugin(absoluteProjectPath),
           errorHandler: applyGradlePluginErrorHandler,
         },
       ],

@@ -16,13 +16,12 @@ afterEach(() => {
 });
 
 describe("injectPluginInBuildGradle", () => {
-  it("injects the plugin and correct configuration with US site", async () => {
+  it("injects the plugin and correct configuration", async () => {
     await injectPluginInBuildGradle(
       getAbsolutePath(
         "src/commands/setup/apply-gradle-plugin/__tests__/fixtures/build.gradle"
       ),
-      testFilePath,
-      { datadogSite: "US" }
+      testFilePath
     );
 
     // @ts-ignore
@@ -33,31 +32,13 @@ describe("injectPluginInBuildGradle", () => {
     );
   });
 
-  it("injects the plugin and correct configuration with no site", async () => {
-    await injectPluginInBuildGradle(
-      getAbsolutePath(
-        "src/commands/setup/apply-gradle-plugin/__tests__/fixtures/build.gradle"
-      ),
-      testFilePath,
-      {}
-    );
-
-    // @ts-ignore
-    expect(testFilePath).toMatchFile(
-      getAbsolutePath(
-        "src/commands/setup/apply-gradle-plugin/__tests__/results/no-site.build.gradle"
-      )
-    );
-  });
-
   it("throws an error if the plugin could not be automated", async () => {
     await expect(
       injectPluginInBuildGradle(
         getAbsolutePath(
           "src/commands/setup/apply-gradle-plugin/__tests__/fixtures/no-variant-loop.build.gradle"
         ),
-        testFilePath,
-        {}
+        testFilePath
       )
     ).rejects.toThrowError(GradlePluginNotAutomated);
   });

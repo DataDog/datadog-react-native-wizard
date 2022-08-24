@@ -1,12 +1,10 @@
 import { EOL } from "os";
 import { GradlePluginNotAutomated, GradlePluginNotInstalled } from "../errors";
-import { DatadogSite } from "../interface";
 import { editFile } from "../utils/edit-file";
 
 export const injectPluginInBuildGradle = async (
   androidAppBuildGradleInputFile: string,
-  androidAppBuildGradleOutputFile: string,
-  state: { datadogSite?: DatadogSite }
+  androidAppBuildGradleOutputFile: string
 ) => {
   let hasAddedPluginAndConfiguration = false;
   let hasAddedAutomation = false;
@@ -18,12 +16,11 @@ export const injectPluginInBuildGradle = async (
         hasAddedPluginAndConfiguration = true;
         const installationBlock = [
           `plugins {`,
-          `    id("com.datadoghq.dd-sdk-android-gradle-plugin") version "1.4.0"`,
+          `    id("com.datadoghq.dd-sdk-android-gradle-plugin") version "1.5.0"`,
           `}`,
           ``,
           `datadog {`,
           `    checkProjectDependencies = "none"`,
-          getDatadogSiteLine(state.datadogSite),
           `}`,
           ``,
         ].join(EOL);
@@ -53,15 +50,4 @@ export const injectPluginInBuildGradle = async (
   if (!hasAddedAutomation) {
     throw new GradlePluginNotAutomated();
   }
-};
-
-/**
- * For now our sites match with the configuration here: https://github.com/DataDog/dd-sdk-android-gradle-plugin/blob/develop/dd-sdk-android-gradle-plugin/src/main/kotlin/com/datadog/gradle/plugin/DatadogSite.kt
- * This "duplicated" typing is to ensure we don't accidentaly break compatibility here
- */
-type GradlePluginDatadogSite = "US" | "EU" | "US3" | "US5" | "GOV";
-
-const getDatadogSiteLine = (datadogSite?: GradlePluginDatadogSite): string => {
-  if (!datadogSite) return "";
-  return `    site = "${datadogSite}"`;
 };

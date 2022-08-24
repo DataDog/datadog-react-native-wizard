@@ -1,12 +1,7 @@
-import { Store } from "../../../utils/StepsCommand/Store";
-import { DatadogSite } from "../interface";
 import { askIsObfuscationEnabled } from "./ask-is-obfuscation-enabled";
 import { injectPluginInBuildGradle } from "./inject-plugin-in-build-gradle";
 
-export const applyGradlePlugin = async (
-  absoluteProjectPath: string,
-  store: Store<{ datadogSite?: DatadogSite }>
-) => {
+export const applyGradlePlugin = async (absoluteProjectPath: string) => {
   const isObfuscationEnabled = await askIsObfuscationEnabled();
   if (!isObfuscationEnabled) {
     return;
@@ -15,7 +10,6 @@ export const applyGradlePlugin = async (
   const androidAppBuildGradleFile = `${absoluteProjectPath}/android/app/build.gradle`;
   await injectPluginInBuildGradle(
     androidAppBuildGradleFile,
-    androidAppBuildGradleFile,
-    store.get()
+    androidAppBuildGradleFile
   );
 };
