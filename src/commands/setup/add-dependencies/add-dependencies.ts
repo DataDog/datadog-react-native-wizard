@@ -18,7 +18,7 @@ export const addDependencies = async (
   checkIsRNProject(absoluteProjectPath);
   const dependencyStatus = checkDependencyStatus(
     "@datadog/datadog-ci",
-    "1.7.3",
+    "1.13.3",
     { absoluteProjectPath: absoluteProjectPath }
   );
   if (dependencyStatus !== "OK") {
