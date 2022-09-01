@@ -109,6 +109,5 @@ atomic, with a proper commit message.
 1. Increment the version in package.json
 1. Run `yarn pack`, unpack the archive and check all relevant files are there
 1. Run `yarn build`
-1. Edit the `dist/cli.js` file to include at the top a `#!/usr/bin/env node` line
 1. Run `yarn publish`
 1. Create a release with a tag on Github
