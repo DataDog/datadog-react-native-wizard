@@ -9,7 +9,7 @@ Setup your React Native project to automatically upload javascript sourcemaps, i
 At the root of your React Native application, run:
 
 ```bash
-npx @datadog/react-native-wizard
+npx datadog-react-native-wizard
 ```
 
 ## Options
@@ -17,5 +17,5 @@ npx @datadog/react-native-wizard
 You can run the wizard outside of your project by specifying the absolute path to your project:
 
 ```bash
-npx @datadog/react-native-wizard /Users/me/MyApp
+npx datadog-react-native-wizard /Users/me/MyApp
 ```

@@ -1,10 +1,13 @@
 {
-  "name": "@datadog/datadog-react-native-wizard",
-  "version": "0.0.1",
+  "name": "datadog-react-native-wizard",
+  "version": "0.0.2",
   "description": "Setup wizard for Datadog React Native SDK",
   "repository": "https://github.com/DataDog/datadog-react-native-wizard",
   "license": "Apache-2.0",
   "main": "index.js",
+  "bin": {
+    "datadog-react-native-wizard": "./dist/cli.js"
+  },
   "scripts": {
     "build": "yarn clean; tsc",
     "clean": "rm -rf dist/*",
@@ -12,6 +15,10 @@
     "launch": "ts-node --transpile-only src/cli.ts",
     "test": "jest"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "dependencies": {
     "chalk": "3.0.0",
     "clipanion": "^3.2.0-rc.11",
