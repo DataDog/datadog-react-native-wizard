@@ -102,3 +102,12 @@ requests must:
 
 Make sure that your code is clean and readable, that your commits are small and
 atomic, with a proper commit message.
+
+## Releasing a new version
+
+1. Create a branch named `release/x.y.z`
+1. Increment the version in package.json
+1. Run `yarn pack`, unpack the archive and check all relevant files are there
+1. Run `yarn build`
+1. Run `yarn publish`
+1. Create a release with a tag on Github

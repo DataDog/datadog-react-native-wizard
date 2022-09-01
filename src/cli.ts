@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { CommandClass } from "clipanion/lib/advanced/Command";
 import fs from "fs";
 
