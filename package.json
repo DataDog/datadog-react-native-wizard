@@ -13,6 +13,7 @@
     "clean": "rm -rf dist/*",
     "check-licenses": "node bin/check-licenses.js",
     "launch": "ts-node --transpile-only src/cli.ts",
+    "postbuild": "./bin/postbuild.sh",
     "test": "jest"
   },
   "files": [
