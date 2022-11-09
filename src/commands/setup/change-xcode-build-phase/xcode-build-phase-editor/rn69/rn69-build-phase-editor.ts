@@ -1,3 +1,4 @@
+import { makeFileExecutable } from "../../../utils/make-file-executable";
 import { editFile } from "../../../utils/edit-file";
 import { XCodeBuildPhaseEditor } from "../xcode-build-phase-editor";
 
@@ -18,7 +19,7 @@ export class RN69BuildPhaseEditor extends XCodeBuildPhaseEditor {
   };
 
   private addDatadogScript = async () => {
-    return editFile(
+    await editFile(
       `${__dirname}/datadog-sourcemaps.sh.template`,
       this.datadogScriptLocation,
       (line: string) => {
@@ -28,6 +29,7 @@ export class RN69BuildPhaseEditor extends XCodeBuildPhaseEditor {
           .replace("{{packageManager}}", this.packageManager);
       }
     );
+    return makeFileExecutable(this.datadogScriptLocation);
   };
 
   protected getNewShellScript = (line: string) => {
