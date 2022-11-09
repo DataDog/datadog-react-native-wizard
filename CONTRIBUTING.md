@@ -107,7 +107,7 @@ atomic, with a proper commit message.
 
 1. Create a branch named `release/x.y.z`
 1. Increment the version in package.json
-1. Run `yarn pack`, unpack the archive and check all relevant files are there (especially non ts files: `datadog-sourcemaps.sh.template`)
+1. Run `yarn pack`, unpack the archive and check all relevant files are there (especially non-TypeScript files: `datadog-sourcemaps.sh.template`)
 1. Run `yarn build`
 1. Run `yarn publish`
 1. Create a release with a tag on Github
