@@ -1,6 +1,6 @@
 {
   "name": "datadog-react-native-wizard",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Setup wizard for Datadog React Native SDK",
   "repository": "https://github.com/DataDog/datadog-react-native-wizard",
   "license": "Apache-2.0",
@@ -13,6 +13,7 @@
     "clean": "rm -rf dist/*",
     "check-licenses": "node bin/check-licenses.js",
     "launch": "ts-node --transpile-only src/cli.ts",
+    "postbuild": "./bin/postbuild.sh",
     "test": "jest"
   },
   "files": [
