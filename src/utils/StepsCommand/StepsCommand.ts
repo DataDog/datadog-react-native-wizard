@@ -9,32 +9,68 @@ import {
 import { Printer } from "./Printer";
 import { Store } from "./Store";
 
-export class StepsCommand<StateType extends object | void> {
+export class StepsCommand<
+  StateType extends object | void,
+  InitialStateType extends object | void
+> {
   private steps: Step<StateType>[];
   private name: string;
   private printer: Printer;
-  private store: Store<StateType>;
+  private initialState: InitialStateType;
+  private storeValidator: (initialState: InitialStateType) => StateType;
+  private storeValidatorErrorHandler: (error: unknown) => string;
 
   constructor({
     steps,
     name,
     output,
     initialState,
+    storeValidator,
+    storeValidatorErrorHandler,
   }: {
     steps: Step<StateType>[];
     name: string;
     output: Output;
-    initialState: StateType;
+    initialState: InitialStateType;
+    storeValidator: (initialState: InitialStateType) => StateType;
+    storeValidatorErrorHandler: (error: unknown) => string;
   }) {
     this.steps = steps;
     this.name = name;
     this.printer = new Printer(output);
-    this.store = new Store(initialState);
+    this.initialState = initialState;
+    this.storeValidator = storeValidator;
+    this.storeValidatorErrorHandler = storeValidatorErrorHandler;
   }
 
   public run = async () => {
     this.printer.printCommandName(this.name);
 
+    const [store, error] = this.buildStore();
+    if (error) {
+      return 1;
+    }
+
+    const results = await this.runSteps(store);
+
+    const terminatingStep = findTerminatingStep(results);
+    this.printer.printEndMessage(results, this.name, terminatingStep);
+    if (terminatingStep) {
+      return 1;
+    }
+    return 0;
+  };
+
+  private buildStore = (): [Store<StateType>, null] | [null, Error] => {
+    try {
+      return [new Store(this.storeValidator(this.initialState)), null];
+    } catch (error) {
+      this.printer.printValidationError(this.storeValidatorErrorHandler(error));
+      return [null, error as Error];
+    }
+  };
+
+  private runSteps = async (store: Store<StateType>): Promise<StepResult[]> => {
     let results: StepResult[] = [];
     for (let stepIndex = 0; stepIndex < this.steps.length; stepIndex++) {
       const step = this.steps[stepIndex];
@@ -51,7 +87,7 @@ export class StepsCommand<StateType extends object | void> {
       }
 
       try {
-        await step.stepFunction(this.store);
+        await step.stepFunction(store);
         const stepResult: SuccessfulStepResult = {
           status: "success",
           name: step.name,
@@ -70,12 +106,7 @@ export class StepsCommand<StateType extends object | void> {
       }
     }
 
-    const terminatingStep = findTerminatingStep(results);
-    this.printer.printEndMessage(results, this.name, terminatingStep);
-    if (terminatingStep) {
-      return 1;
-    }
-    return 0;
+    return results;
   };
 }
 

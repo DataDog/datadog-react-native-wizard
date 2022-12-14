@@ -74,6 +74,12 @@ export class Printer {
     }
   };
 
+  public printValidationError = (message: string) => {
+    this.stderr.write(
+      `\nThere was an error validating the arguments provided to the command: \n${message}`
+    );
+  };
+
   public printEndMessage = (
     results: StepResult[],
     name: string,

@@ -14,15 +14,22 @@ import { changeXCodeBuildPhase } from "./change-xcode-build-phase/change-xcode-b
 import { changeXCodeBuildPhaseErrorDetails } from "./change-xcode-build-phase/error-details";
 import { createConfigurationFiles } from "./create-configuration-files/create-configuration-files";
 import { createConfigurationFilesErrorHandler } from "./create-configuration-files/error-handler";
-import { ApiKeyNotProvided, DatadogSiteValueError } from "./errors";
 import { DatadogSite } from "./interface";
-import { validateInitialState } from "./validation";
+import { handleValidationError, validateInitialState } from "./validation";
 
 export type SetupCommandStateType = {
   androidMinificationEnabled?: boolean;
   apiKey?: string;
   bypassPrompts: boolean;
   datadogSite?: DatadogSite;
+  intakeUrl?: string;
+};
+
+export type SetupCommandInitialStateType = {
+  androidMinificationEnabled?: boolean;
+  apiKey?: string;
+  bypassPrompts?: boolean;
+  datadogSite?: string;
   intakeUrl?: string;
 };
 
@@ -45,73 +52,64 @@ export class SetupCommand extends Command {
       stdout: process.stdout,
     };
 
-    try {
-      const initialState = validateInitialState({
+    const absoluteProjectPath = this.absoluteProjectPath;
+    const setupCommand = new StepsCommand<
+      SetupCommandStateType,
+      SetupCommandInitialStateType
+    >({
+      output,
+      steps: [
+        {
+          name: "get sourcemaps upload variables",
+          stepFunction: (store) =>
+            createConfigurationFiles(absoluteProjectPath, store),
+          errorHandler: createConfigurationFilesErrorHandler,
+        },
+        {
+          name: "add required dependencies",
+          stepFunction: () => addDependencies(absoluteProjectPath, output),
+          errorHandler: defaultErrorHandlerWithDetails(
+            addDependenciesErrorDetails
+          ),
+        },
+        {
+          name: "automate sourcemaps upload on iOS builds",
+          stepFunction: () => changeXCodeBuildPhase(absoluteProjectPath),
+          errorHandler: defaultErrorHandlerWithDetails(
+            changeXCodeBuildPhaseErrorDetails
+          ),
+        },
+        {
+          name: "automate sourcemaps upload on Android builds",
+          stepFunction: () => applyGradleTask(absoluteProjectPath),
+          errorHandler: applyGradleTaskErrorHandler,
+        },
+        {
+          name: "automate dSYMs upload on iOS builds",
+          stepFunction: () => addXCodeDsymsBuildPhase(absoluteProjectPath),
+          errorHandler: defaultErrorHandlerWithDetails(
+            addXCodeDsymsBuildPhaseErrorDetails
+          ),
+        },
+        {
+          name: "automate proguard mapping files upload on android builds",
+          stepFunction: (store) =>
+            applyGradlePlugin(absoluteProjectPath, store),
+          errorHandler: applyGradlePluginErrorHandler,
+        },
+      ],
+      name: "Setup the automated upload of javascript sourcemaps to Datadog",
+      initialState: {
         androidMinificationEnabled: this.androidMinificationEnabled,
         apiKey: this.apiKey,
-        bypassPrompts: !!this.bypassPrompts,
+        bypassPrompts: this.bypassPrompts,
         datadogSite: this.datadogSite,
         intakeUrl: this.intakeUrl,
-      });
+      },
+      storeValidator: validateInitialState,
+      storeValidatorErrorHandler: handleValidationError,
+    });
 
-      const absoluteProjectPath = this.absoluteProjectPath;
-      const setupCommand = new StepsCommand<SetupCommandStateType>({
-        output,
-        steps: [
-          {
-            name: "get sourcemaps upload variables",
-            stepFunction: (store) =>
-              createConfigurationFiles(absoluteProjectPath, store),
-            errorHandler: createConfigurationFilesErrorHandler,
-          },
-          {
-            name: "add required dependencies",
-            stepFunction: () => addDependencies(absoluteProjectPath, output),
-            errorHandler: defaultErrorHandlerWithDetails(
-              addDependenciesErrorDetails
-            ),
-          },
-          {
-            name: "automate sourcemaps upload on iOS builds",
-            stepFunction: () => changeXCodeBuildPhase(absoluteProjectPath),
-            errorHandler: defaultErrorHandlerWithDetails(
-              changeXCodeBuildPhaseErrorDetails
-            ),
-          },
-          {
-            name: "automate sourcemaps upload on Android builds",
-            stepFunction: () => applyGradleTask(absoluteProjectPath),
-            errorHandler: applyGradleTaskErrorHandler,
-          },
-          {
-            name: "automate dSYMs upload on iOS builds",
-            stepFunction: () => addXCodeDsymsBuildPhase(absoluteProjectPath),
-            errorHandler: defaultErrorHandlerWithDetails(
-              addXCodeDsymsBuildPhaseErrorDetails
-            ),
-          },
-          {
-            name: "automate proguard mapping files upload on android builds",
-            stepFunction: (store) =>
-              applyGradlePlugin(absoluteProjectPath, store),
-            errorHandler: applyGradlePluginErrorHandler,
-          },
-        ],
-        name: "Setup the automated upload of javascript sourcemaps to Datadog",
-        initialState,
-      });
-
-      await setupCommand.run();
-    } catch (error) {
-      if (error instanceof DatadogSiteValueError) {
-        output.stderr.write(
-          `Datadog site "${this.datadogSite}" is not a valid site.`
-        );
-      }
-      if (error instanceof ApiKeyNotProvided) {
-        output.stderr.write(`API key "${this.apiKey}" is not a valid API key.`);
-      }
-      return 1;
-    }
+    await setupCommand.run();
   }
 }

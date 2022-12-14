@@ -32,16 +32,22 @@ export class GradlePluginNotAutomated extends Error {
   }
 }
 
-export class DatadogSiteValueError extends Error {
-  constructor(message?: string) {
+export class DatadogSiteValueNotValid extends Error {
+  site: string;
+
+  constructor(site: string, message?: string) {
     super(message);
-    this.name = "DatadogSiteValueError";
+    this.site = site;
+    this.name = "DatadogSiteValueNotValid";
   }
 }
 
 export class ApiKeyNotProvided extends Error {
-  constructor(message?: string) {
+  apiKey: string;
+
+  constructor(apiKey: string, message?: string) {
     super(message);
+    this.apiKey = apiKey;
     this.name = "ApiKeyNotProvided";
   }
 }
