@@ -21,7 +21,7 @@ describe("createConfigurationFiles", () => {
     });
 
     it("stores the datadog site into the store", async () => {
-      const store = new Store({});
+      const store = new Store({ bypassPrompts: false });
       await createConfigurationFiles(
         getAbsolutePath(
           "src/commands/setup/create-configuration-files/__tests__/"
@@ -29,18 +29,34 @@ describe("createConfigurationFiles", () => {
         store
       );
       expect(store.get()).toEqual({
+        bypassPrompts: false,
+        datadogSite: "US",
+      });
+    });
+
+    it("uses the value from the store if", async () => {
+      const store = new Store({ bypassPrompts: true });
+      await createConfigurationFiles(
+        getAbsolutePath(
+          "src/commands/setup/create-configuration-files/__tests__/"
+        ),
+        store
+      );
+      expect(store.get()).toEqual({
+        bypassPrompts: true,
         datadogSite: "US",
       });
     });
   });
 
   it("throws if file already exists", () => {
+    const store = new Store({ bypassPrompts: false });
     expect(() =>
       createConfigurationFiles(
         getAbsolutePath(
           "src/commands/setup/create-configuration-files/__tests__/results"
         ),
-        new Store({})
+        store
       )
     ).rejects.toThrowError(DatadogCiConfigFileAlreadyExists);
   });
