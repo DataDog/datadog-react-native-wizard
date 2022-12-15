@@ -31,3 +31,23 @@ export class GradlePluginNotAutomated extends Error {
     this.name = "GradlePluginNotAutomated";
   }
 }
+
+export class DatadogSiteValueNotValid extends Error {
+  site: string;
+
+  constructor(site: string, message?: string) {
+    super(message);
+    this.site = site;
+    this.name = "DatadogSiteValueNotValid";
+  }
+}
+
+export class ApiKeyNotProvided extends Error {
+  apiKey: string;
+
+  constructor(apiKey: string, message?: string) {
+    super(message);
+    this.apiKey = apiKey;
+    this.name = "ApiKeyNotProvided";
+  }
+}

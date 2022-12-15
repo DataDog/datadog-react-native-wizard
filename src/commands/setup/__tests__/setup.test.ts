@@ -36,12 +36,51 @@ afterEach(() => {
 });
 
 describe("Setup command", () => {
-  describe("execute", () => {
+  describe("execute with prompts", () => {
     it("returns a 0 code", async () => {
       const cli = makeCli();
       const code = await cli.run([absoluteProjectPath]);
 
       expect(code).toBe(0);
+    });
+  });
+
+  describe("execute with CLI arguments", () => {
+    it("returns a 0 code", async () => {
+      const cli = makeCli();
+      const code = await cli.run([
+        "--bypass-prompts",
+        "--android-minification",
+        "--api-key",
+        "FAKE_API_KEY",
+        "--intake-url",
+        "FAKE_INTAKE_URL",
+        "--datadog-site",
+        "GOV",
+        absoluteProjectPath,
+      ]);
+
+      expect(code).toBe(0);
+    });
+
+    it("throws an error if the site is not a valid site", async () => {
+      const cli = makeCli();
+      const code = await cli.run([
+        "--bypass-prompts",
+        "--api-key",
+        "FAKE_API_KEY",
+        "--datadog-site",
+        "FAKE_SITE",
+        absoluteProjectPath,
+      ]);
+
+      expect(code).toBe(1);
+    });
+
+    it("throws an error if the apiKey was not specified", async () => {
+      const cli = makeCli();
+      const code = await cli.run(["--bypass-prompts", absoluteProjectPath]);
+      expect(code).toBe(1);
     });
   });
 });

@@ -5,8 +5,8 @@ import { ConfigurationData } from "./interface";
 // Keeping this variable apart to ensure typing on DatdogSite as
 // Inquirer does not progate typing
 const siteChoices: { name: string; value: DatadogSite }[] = [
-  { name: "US", value: "US" },
-  { name: "EU", value: "EU" },
+  { name: "US1", value: "US1" },
+  { name: "EU1", value: "EU1" },
   { name: "US3", value: "US3" },
   { name: "US5", value: "US5" },
   { name: "GOV", value: "GOV" },
@@ -24,7 +24,7 @@ export const getConfigurationData = async (): Promise<ConfigurationData> => {
       type: "list",
       name: "site",
       message: "Select the site of your organization.",
-      default: "US",
+      default: "US1",
       choices: siteChoices,
     },
     {

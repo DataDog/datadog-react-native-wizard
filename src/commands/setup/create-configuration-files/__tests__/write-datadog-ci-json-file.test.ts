@@ -18,7 +18,7 @@ describe("writeDatadogCiJsonFile", () => {
   it("writes the file with the apiKey, intakeURL and US site", async () => {
     await writeDatadogCiJsonFile(testFilePath, {
       apiKey: "my-api-key",
-      site: "US",
+      site: "US1",
       intakeUrl: "custom-intake-url",
     });
 
@@ -39,7 +39,7 @@ describe("writeDatadogCiJsonFile", () => {
   it("writes the file with the apiKey, intakeURL and EU site", async () => {
     await writeDatadogCiJsonFile(testFilePath, {
       apiKey: "my-api-key",
-      site: "EU",
+      site: "EU1",
       intakeUrl: "custom-intake-url",
     });
 
