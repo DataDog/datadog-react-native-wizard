@@ -1,6 +1,7 @@
 import { unlinkSync } from "fs";
 import { Store } from "../../../../utils/StepsCommand/Store";
 import { DatadogCiConfigFileAlreadyExists } from "../../errors";
+import { DatadogSite } from "../../interface";
 import { getAbsolutePath } from "../../__test-utils__/get-absolute-path";
 import { createConfigurationFiles } from "../create-configuration-files";
 
@@ -20,7 +21,7 @@ describe("createConfigurationFiles", () => {
       }
     });
 
-    it("stores the datadog site into the store", async () => {
+    it("stores the datadog site into the store when prompting", async () => {
       const store = new Store({ bypassPrompts: false });
       await createConfigurationFiles(
         getAbsolutePath(
@@ -30,11 +31,11 @@ describe("createConfigurationFiles", () => {
       );
       expect(store.get()).toEqual({
         bypassPrompts: false,
-        datadogSite: "US",
+        datadogSite: "US1",
       });
     });
 
-    it("uses the value from the store if", async () => {
+    it("stores the datadog site into the store when bypassing prompts (default value)", async () => {
       const store = new Store({ bypassPrompts: true });
       await createConfigurationFiles(
         getAbsolutePath(
@@ -44,7 +45,24 @@ describe("createConfigurationFiles", () => {
       );
       expect(store.get()).toEqual({
         bypassPrompts: true,
-        datadogSite: "US",
+        datadogSite: "US1",
+      });
+    });
+
+    it("stores the datadog site into the store when bypassing prompts", async () => {
+      const store = new Store({
+        bypassPrompts: true,
+        datadogSite: "EU1" as DatadogSite,
+      });
+      await createConfigurationFiles(
+        getAbsolutePath(
+          "src/commands/setup/create-configuration-files/__tests__/"
+        ),
+        store
+      );
+      expect(store.get()).toEqual({
+        bypassPrompts: true,
+        datadogSite: "EU1",
       });
     });
   });

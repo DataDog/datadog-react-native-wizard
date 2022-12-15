@@ -1,5 +1,6 @@
 import { createWriteStream } from "fs";
 import { EOL } from "os";
+import { DatadogSite } from "../interface";
 import { asyncCloseWriteStream } from "../utils/edit-file";
 import { ConfigurationData } from "./interface";
 
@@ -49,11 +50,11 @@ const generateJSONLine = (
   return `  "${key}": "${value}"${options.isLastLine ? "" : ","}`;
 };
 
-const getSiteURLFromSite = (site?: string): string | null => {
+const getSiteURLFromSite = (site?: DatadogSite): string | null => {
   if (!site) {
     return null;
   }
-  if (site === "EU") {
+  if (site === "EU1") {
     return "datadoghq.eu";
   }
 
