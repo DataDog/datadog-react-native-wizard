@@ -2,8 +2,6 @@ import { writeFileSync } from "fs";
 import { project } from "xcode";
 
 export const injectDsymsBuildPhase = async (params: {
-  packageManagerBin: string;
-  nodeBin: string;
   absoluteProjectPath: string;
   inputPbxprojFile: string;
   outputPbxprojFile: string;
@@ -24,7 +22,7 @@ export const injectDsymsBuildPhase = async (params: {
         "Upload dSYMs to Datadog",
         null /* target */,
         {
-          shellScript: `set -e\\n${params.nodeBin} ${params.packageManagerBin} datadog-ci dsyms upload $DWARF_DSYM_FOLDER_PATH`,
+          shellScript: `set -e\\n../node_modules/.bin/datadog-ci dsyms upload $DWARF_DSYM_FOLDER_PATH`,
           shellPath: "/bin/sh",
         }
       );

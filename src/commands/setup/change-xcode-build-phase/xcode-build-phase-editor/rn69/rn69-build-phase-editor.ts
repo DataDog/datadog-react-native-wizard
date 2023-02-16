@@ -23,10 +23,8 @@ export class RN69BuildPhaseEditor extends XCodeBuildPhaseEditor {
       `${__dirname}/datadog-sourcemaps.sh.template`,
       this.datadogScriptLocation,
       (line: string) => {
-        return line
-          .replace("{{nodeBin}}", this.nodeBin)
-          .replace("{{packageManagerBin}}", this.packageManagerBin)
-          .replace("{{packageManager}}", this.packageManager);
+        // we only copy the file
+        return line;
       }
     );
     return makeFileExecutable(this.datadogScriptLocation);
@@ -36,7 +34,7 @@ export class RN69BuildPhaseEditor extends XCodeBuildPhaseEditor {
     const [beforeScript, afterScript] = line.split(
       `REACT_NATIVE_XCODE=\\"../node_modules/react-native/scripts/react-native-xcode.sh\\"`
     );
-    const datadogScript = `REACT_NATIVE_XCODE=\\"./datadog-sourcemaps.sh\\"\\nexport SOURCEMAP_FILE=./build/main.jsbundle.map\\n`;
+    const datadogScript = `REACT_NATIVE_XCODE=\\"./datadog-sourcemaps.sh\\"\\nexport SOURCEMAP_FILE=$DERIVED_FILE_DIR/main.jsbundle.map\\n`;
 
     return `${beforeScript}${datadogScript}${afterScript}`;
   };

@@ -19,9 +19,6 @@ afterEach(() => {
 describe("RN69BuildPhaseEditor", () => {
   it("modifies the pbxproj file", async () => {
     const rn69BuildPhaseEditor = new RN69BuildPhaseEditor({
-      packageManager: "yarn",
-      packageManagerBin: "/opt/homebrew/bin/yarn",
-      nodeBin: "/opt/homebrew/bin/node",
       absoluteProjectPath: fixturesPath,
       outputPbxprojFile: testFile,
       inputPbxprojFile: "rn69.project.pbxproj",
