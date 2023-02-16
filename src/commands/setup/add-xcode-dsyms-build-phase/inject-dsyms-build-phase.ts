@@ -2,8 +2,6 @@ import { writeFileSync } from "fs";
 import { project } from "xcode";
 
 export const injectDsymsBuildPhase = async (params: {
-  packageManagerBin: string;
-  nodeBin: string;
   absoluteProjectPath: string;
   inputPbxprojFile: string;
   outputPbxprojFile: string;

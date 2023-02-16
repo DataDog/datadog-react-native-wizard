@@ -26,8 +26,6 @@ afterEach(() => {
 describe("injectDsymsBuildPhase", () => {
   it("injects the dsyms upload build phase in the project pbxproj", async () => {
     await injectDsymsBuildPhase({
-      packageManagerBin: "/opt/homebrew/bin/yarn",
-      nodeBin: "/opt/homebrew/bin/node",
       absoluteProjectPath: fixturesPath,
       inputPbxprojFile: "project.pbxproj",
       outputPbxprojFile: "project.pbxproj.log",
