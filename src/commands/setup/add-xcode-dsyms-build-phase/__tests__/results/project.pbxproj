@@ -410,7 +410,7 @@
 			outputPaths = (
 			);
 			shellPath = /bin/sh;
-			shellScript = "set -e\n/opt/homebrew/bin/node /opt/homebrew/bin/yarn datadog-ci dsyms upload $DWARF_DSYM_FOLDER_PATH";
+			shellScript = "set -e\n../node_modules/.bin/datadog-ci dsyms upload $DWARF_DSYM_FOLDER_PATH";
 		};
 /* End PBXShellScriptBuildPhase section */
 
