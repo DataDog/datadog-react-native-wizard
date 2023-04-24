@@ -248,10 +248,6 @@ android {
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
-        if (project.tasks.findByName("minify${variant.name.capitalize()}WithR8")) {
-            tasks["minify${variant.name.capitalize()}WithR8"].finalizedBy { tasks["uploadMapping${variant.name.capitalize()}"] }
-        }
-
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html
@@ -263,6 +259,12 @@ android {
                         defaultConfig.versionCode * 1000 + versionCodes.get(abi)
             }
 
+        }
+    }
+
+    applicationVariants.all { variant ->
+        if (project.tasks.findByName("minify${variant.name.capitalize()}WithR8")) {
+            tasks["minify${variant.name.capitalize()}WithR8"].finalizedBy { tasks["uploadMapping${variant.name.capitalize()}"] }
         }
     }
 }

@@ -6,10 +6,7 @@ import { editFile } from "../utils/edit-file";
  * This enum represents the state of the automation injection process.
  * First we start in the BEFORE_ANDROID_CLOSURE state.
  * When we enter the `android` closure, we go in IN_ANDROID_CLOSURE state.
- *
- * If then we find the `applicationVariants` loop, we inject the automation and go into DONE state.
- * If we find the end of the android closure and we're still in the IN_ANDROID_CLOSURE state (meaning
- * there were no `applicationVariants` loop), we inject the automation and go into DONE state.
+ * When we reach the end of the android closure, we inject the automation and go into DONE state.
  */
 const enum AutomationState {
   BEFORE_ANDROID_CLOSURE = "BEFORE_ANDROID_CLOSURE",
@@ -18,15 +15,12 @@ const enum AutomationState {
 }
 
 const AUTOMATION_BLOCK = [
+  `    applicationVariants.all { variant ->`,
   `        if (project.tasks.findByName("minify\${variant.name.capitalize()}WithR8")) {`,
   `            tasks["minify\${variant.name.capitalize()}WithR8"].finalizedBy { tasks["uploadMapping\${variant.name.capitalize()}"] }`,
   `        }`,
-];
-
-const AUTOMATION_BLOCK_WITH_LOOP = [
-  `    applicationVariants.all { variant ->`,
-  ...AUTOMATION_BLOCK,
   `    }`,
+  ``,
 ];
 
 export const injectPluginInBuildGradle = async (
@@ -64,22 +58,13 @@ export const injectPluginInBuildGradle = async (
         hasAddedAutomationState = AutomationState.IN_ANDROID_CLOSURE;
       }
 
-      // Entering the applicationVariants loop
-      if (
-        line.match("applicationVariants.all") &&
-        hasAddedAutomationState === AutomationState.IN_ANDROID_CLOSURE
-      ) {
-        hasAddedAutomationState = AutomationState.DONE;
-        return `${line}${EOL}${AUTOMATION_BLOCK.join(EOL)}${EOL}`;
-      }
-
-      // Reaching the end of the android closure and no applicationVariants loop was found
+      // Reaching the end of the android closure
       if (
         line.match(/^}$/) &&
         hasAddedAutomationState === AutomationState.IN_ANDROID_CLOSURE
       ) {
         hasAddedAutomationState = AutomationState.DONE;
-        return `${EOL}${AUTOMATION_BLOCK_WITH_LOOP.join(EOL)}${EOL}${line}`;
+        return `${EOL}${AUTOMATION_BLOCK.join(EOL)}${line}`;
       }
 
       return line;
