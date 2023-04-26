@@ -32,11 +32,43 @@ describe("injectPluginInBuildGradle", () => {
     );
   });
 
-  it("throws an error if the plugin could not be automated", async () => {
+  it("adds an application variant loop if not present in RN >= 0.72", async () => {
+    await injectPluginInBuildGradle(
+      getAbsolutePath(
+        "src/commands/setup/apply-gradle-plugin/__tests__/fixtures/rn72.build.gradle"
+      ),
+      testFilePath
+    );
+
+    // @ts-ignore
+    expect(testFilePath).toMatchFile(
+      getAbsolutePath(
+        "src/commands/setup/apply-gradle-plugin/__tests__/results/us.rn72.build.gradle"
+      )
+    );
+  });
+
+  it("adds an application variant loop if not present in RN < 0.72", async () => {
+    await injectPluginInBuildGradle(
+      getAbsolutePath(
+        "src/commands/setup/apply-gradle-plugin/__tests__/fixtures/no-variant-loop.build.gradle"
+      ),
+      testFilePath
+    );
+
+    // @ts-ignore
+    expect(testFilePath).toMatchFile(
+      getAbsolutePath(
+        "src/commands/setup/apply-gradle-plugin/__tests__/results/us.no-variant-loop.build.gradle"
+      )
+    );
+  });
+
+  it("throws an error if the android closure is not present", async () => {
     await expect(
       injectPluginInBuildGradle(
         getAbsolutePath(
-          "src/commands/setup/apply-gradle-plugin/__tests__/fixtures/no-variant-loop.build.gradle"
+          "src/commands/setup/apply-gradle-plugin/__tests__/fixtures/no-android-closure.build.gradle"
         ),
         testFilePath
       )
