@@ -27,9 +27,12 @@ const getBuildPhaseEditor = async (params: {
       outputPbxprojFile: params.pbxprojFile,
     });
   }
-  return new RN69BuildPhaseEditor({
-    absoluteProjectPath: params.absoluteProjectPath,
-    inputPbxprojFile: params.pbxprojFile,
-    outputPbxprojFile: params.pbxprojFile,
-  });
+  return new RN69BuildPhaseEditor(
+    {
+      absoluteProjectPath: params.absoluteProjectPath,
+      inputPbxprojFile: params.pbxprojFile,
+      outputPbxprojFile: params.pbxprojFile,
+    },
+    { minorRNVersion: params.RNVersion.minor }
+  );
 };

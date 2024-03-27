@@ -18,17 +18,43 @@ afterEach(() => {
 
 describe("RN69BuildPhaseEditor", () => {
   it("modifies the pbxproj file", async () => {
-    const rn69BuildPhaseEditor = new RN69BuildPhaseEditor({
-      absoluteProjectPath: fixturesPath,
-      outputPbxprojFile: testFile,
-      inputPbxprojFile: "rn69.project.pbxproj",
-    });
+    const rn69BuildPhaseEditor = new RN69BuildPhaseEditor(
+      {
+        absoluteProjectPath: fixturesPath,
+        outputPbxprojFile: testFile,
+        inputPbxprojFile: "rn69.project.pbxproj",
+      },
+      { minorRNVersion: 69 }
+    );
 
     await rn69BuildPhaseEditor.editBuildPhase();
 
     // @ts-ignore
     expect(`${fixturesPath}/${testFile}`).toMatchFile(
       `./src/commands/setup/change-xcode-build-phase/xcode-build-phase-editor/__tests__/results/rn69.project.pbxproj`
+    );
+
+    // @ts-ignore
+    expect(`${fixturesPath}/ios/datadog-sourcemaps.sh`).toMatchFile(
+      `./src/commands/setup/change-xcode-build-phase/xcode-build-phase-editor/__tests__/results/datadog-sourcemaps.sh`
+    );
+  });
+
+  it("modifies the pbxproj file for RN 0.74", async () => {
+    const rn69BuildPhaseEditor = new RN69BuildPhaseEditor(
+      {
+        absoluteProjectPath: fixturesPath,
+        outputPbxprojFile: testFile,
+        inputPbxprojFile: "rn74.project.pbxproj",
+      },
+      { minorRNVersion: 74 }
+    );
+
+    await rn69BuildPhaseEditor.editBuildPhase();
+
+    // @ts-ignore
+    expect(`${fixturesPath}/${testFile}`).toMatchFile(
+      `./src/commands/setup/change-xcode-build-phase/xcode-build-phase-editor/__tests__/results/rn74.project.pbxproj`
     );
 
     // @ts-ignore
