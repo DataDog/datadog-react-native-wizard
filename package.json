@@ -1,6 +1,6 @@
 {
   "name": "datadog-react-native-wizard",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Setup wizard for Datadog React Native SDK",
   "repository": "https://github.com/DataDog/datadog-react-native-wizard",
   "license": "Apache-2.0",
