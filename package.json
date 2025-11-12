@@ -5,9 +5,7 @@
   "repository": "https://github.com/DataDog/datadog-react-native-wizard",
   "license": "Apache-2.0",
   "main": "index.js",
-  "bin": {
-    "datadog-react-native-wizard": "./dist/cli.js"
-  },
+  "bin": "./dist/cli.js",
   "scripts": {
     "build": "yarn clean; tsc",
     "clean": "rm -rf dist/*",

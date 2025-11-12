@@ -23,14 +23,14 @@ export abstract class DependencyInstaller {
 
     displayOutputFromProcess(bundleJSChildProcess, output);
 
-    const [status, signal] = await new Promise((resolve, reject) => {
+    const [status, signal] = await new Promise<[number | null, NodeJS.Signals | null]>((resolve, reject) => {
       bundleJSChildProcess.on("error", (error: Error) => {
         reject(error);
       });
 
       bundleJSChildProcess.on(
         "close",
-        (exitStatus: number, exitSignal: string) => {
+        (exitStatus: number, exitSignal: NodeJS.Signals) => {
           resolve([exitStatus, exitSignal]);
         }
       );
